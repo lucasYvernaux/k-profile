@@ -23,11 +23,37 @@ ou financier, et aucun chiffre scientifique sans source (`src/domain/sources.ts`
 
 Ce qui est reporté en V2 : voir `docs/adr/0007-perimetre-mvp.md`.
 
+### Modules repris de NYX-KAIROS (ADR 0010)
+
+- Routine par phases (phase en cours, Pomodoro, citation du jour), Atelier pour la configurer.
+- Entretien : tâches récurrentes (maison, santé, administratif) avec échéances.
+- Consommations : eau, caféine, alcool (estimation du taux, limites).
+- Santé : mensurations, séances de sport. Réseau : proches, arbre familial, contacts, centres
+  d'intérêt.
+- Bilan du jour et émotions détaillées, revue hebdomadaire, audit mensuel, objectifs et projets,
+  manifeste.
+- Gamification (niveaux, séries, badges) : **désactivée par défaut**, à activer dans Réglages.
+
+### Migrer les données de NYX-KAIROS
+
+Une seule fois, depuis un poste qui a `.env.local` (base K et `DATA_ENCRYPTION_KEY`) :
+
+```bash
+NYX_DATABASE_URL="<URL directe de la base Neon NYX>" pnpm migrate:nyx --email <ton e-mail K>
+```
+
+```bash
+NYX_DATABASE_URL="<URL directe de la base Neon NYX>" pnpm migrate:nyx --email <ton e-mail K> --apply
+```
+
+La première commande n'écrit rien (elle affiche ce qui sera copié). La base NYX est lue en
+lecture seule. Les habitudes NYX arrivent « en pause » dans Habitudes.
+
 ## Stack
 
 Next.js 16.4 (App Router) · React 19 · TypeScript 5.9 · PostgreSQL 16 + Drizzle ORM (pg) ·
 Cloudflare Workers (OpenNext, Hyperdrive) ·
-Better Auth (mot de passe + TOTP) · Zod · Tailwind CSS 4 · Vitest · Playwright + axe-core · pnpm 10.
+Better Auth (mot de passe + TOTP) · Zod · Tailwind CSS 4 · framer-motion, Lucide, Papicons (écrans repris de NYX) · Vitest · Playwright + axe-core · pnpm 10.
 
 ## Démarrer en local
 
@@ -69,11 +95,12 @@ remettre `ALLOW_SIGNUP=false`.
 | `pnpm test` | Tests unitaires (logique métier, chiffrement, CSV) |
 | `pnpm test:e2e` | Tests e2e : réinitialise la base `k_test` puis lance Playwright (faire `pnpm build` avant) |
 | `pnpm db:generate` / `pnpm db:migrate` | Migrations Drizzle |
+| `pnpm migrate:nyx` | Migration unique des données NYX-KAIROS (voir plus haut) |
 
 ## Déploiement sur Cloudflare Workers
 
 Guide pas à pas : [`docs/deploiement-cloudflare.md`](docs/deploiement-cloudflare.md)
-(OpenNext, Hyperdrive, secrets, Workers Builds depuis GitHub). Décisions : ADR 0008. Neon Auth reportée : ADR 0009.
+(OpenNext, Hyperdrive, secrets, Workers Builds depuis GitHub). Décisions : ADR 0008. Neon Auth reportée : ADR 0009. Fusion de NYX-KAIROS : ADR 0010.
 
 | Commande | Rôle |
 |---|---|
