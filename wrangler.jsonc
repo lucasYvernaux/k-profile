@@ -14,38 +14,38 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "k-profile"
-    }
+      "service": "k-profile",
+    },
   ],
   "hyperdrive": [
     {
       "binding": "HYPERDRIVE",
       // Replace with the id printed by `wrangler hyperdrive create k-profile-db ...`.
-      "id": "00000000000000000000000000000000"
-    }
+      "id": "ced9f23124014775b62e6bab2d72e4bf",
+    },
   ],
   // Evening reminder: checks every 10 minutes which push reminders are due.
   "triggers": {
-    "crons": ["*/10 * * * *"]
+    "crons": ["*/10 * * * *"],
   },
   // Run the Worker close to the database (fewer slow round trips).
   "placement": {
-    "mode": "smart"
+    "mode": "smart",
   },
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
   "upload_source_maps": true,
   // Non-secret configuration. BETTER_AUTH_URL must be the public HTTPS URL.
   "vars": {
-    "BETTER_AUTH_URL": "https://k-profile.example.workers.dev",
-    "ALLOW_SIGNUP": "false",
-    "VAPID_PUBLIC_KEY": "",
-    "VAPID_SUBJECT": ""
-  }
+    "BETTER_AUTH_URL": "https://k-profile.yvernaux-web-solutions.com",
+    "ALLOW_SIGNUP": "true",
+    "VAPID_PUBLIC_KEY": "BFcflbhBqHXxmVgnD4t7qxQhwHHpglHnp95fIzLlzIAqhZDQgrznNjYi34t92qC5PUZgFTztLuxUNa3SUe6axg8",
+    "VAPID_SUBJECT": "mailto:lucas.yvernaux@gmail.com",
+  },
 }
