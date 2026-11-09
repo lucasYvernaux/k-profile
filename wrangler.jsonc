@@ -1,0 +1,51 @@
+/**
+ * Cloudflare Workers configuration (OpenNext adapter).
+ * Deployment guide: docs/deploiement-cloudflare.md
+ *
+ * Secrets are NOT stored here. Set them with `wrangler secret put` (see guide):
+ * BETTER_AUTH_SECRET, DATA_ENCRYPTION_KEY, CRON_SECRET, VAPID_PRIVATE_KEY.
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "k-profile",
+  // Custom entry point: the OpenNext fetch handler + a scheduled handler (cron).
+  "main": "cloudflare/worker.ts",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "k-profile"
+    }
+  ],
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      // Replace with the id printed by `wrangler hyperdrive create k-profile-db ...`.
+      "id": "00000000000000000000000000000000"
+    }
+  ],
+  // Evening reminder: checks every 10 minutes which push reminders are due.
+  "triggers": {
+    "crons": ["*/10 * * * *"]
+  },
+  // Run the Worker close to the database (fewer slow round trips).
+  "placement": {
+    "mode": "smart"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "upload_source_maps": true,
+  // Non-secret configuration. BETTER_AUTH_URL must be the public HTTPS URL.
+  "vars": {
+    "BETTER_AUTH_URL": "https://k-profile.example.workers.dev",
+    "ALLOW_SIGNUP": "false",
+    "VAPID_PUBLIC_KEY": "",
+    "VAPID_SUBJECT": ""
+  }
+}
