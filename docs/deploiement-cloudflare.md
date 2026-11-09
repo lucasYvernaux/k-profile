@@ -78,8 +78,14 @@ pnpm exec wrangler login
 ## 4. Créer la configuration Hyperdrive
 
 ```bash
-pnpm exec wrangler hyperdrive create k-profile-db --connection-string="postgres://UTILISATEUR:MOT_DE_PASSE@HOTE:5432/BASE?sslmode=require"
+pnpm exec wrangler hyperdrive create k-profile-db --connection-string="postgres://UTILISATEUR:MOT_DE_PASSE@HOTE:5432/BASE?sslmode=require" --caching-disabled
 ```
+
+`--caching-disabled` est indispensable. Par défaut, Hyperdrive met en cache les `SELECT` pendant
+60 s et ne les invalide pas après une écriture. Les sessions, la 2FA et les données du journal
+seraient lues périmées. Cloudflare recommande de désactiver le cache pour l'authentification et les
+sessions ([Query caching](https://developers.cloudflare.com/hyperdrive/concepts/query-caching/)).
+Pour une configuration existante : `pnpm exec wrangler hyperdrive update <ID> --caching-disabled`.
 
 La commande affiche un `id`. Copie-le dans `wrangler.jsonc`, à la place de
 `00000000000000000000000000000000` dans le bloc `hyperdrive`.

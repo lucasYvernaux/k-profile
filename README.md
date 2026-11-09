@@ -73,7 +73,7 @@ remettre `ALLOW_SIGNUP=false`.
 ## Déploiement sur Cloudflare Workers
 
 Guide pas à pas : [`docs/deploiement-cloudflare.md`](docs/deploiement-cloudflare.md)
-(OpenNext, Hyperdrive, secrets, Workers Builds depuis GitHub). Décisions : ADR 0008.
+(OpenNext, Hyperdrive, secrets, Workers Builds depuis GitHub). Décisions : ADR 0008. Neon Auth reportée : ADR 0009.
 
 | Commande | Rôle |
 |---|---|

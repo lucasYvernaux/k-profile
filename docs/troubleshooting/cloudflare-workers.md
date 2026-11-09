@@ -38,3 +38,19 @@ bord.
 
 Avertissement sans conséquence quand la machine ne peut pas joindre l'API Cloudflare (réseau
 restreint) : un objet `cf` par défaut est utilisé.
+
+## 2FA : « Code invalide » (401 sur `/api/auth/two-factor/verify-totp`) en production
+
+**Symptôme** (2026-11-09) : le code TOTP est refusé en production alors que le même parcours passe
+dans les tests e2e.
+**Cause probable** : cache des requêtes Hyperdrive, activé par défaut (`max_age` 60 s). Hyperdrive
+n'invalide pas un `SELECT` en cache après une écriture. Si l'activation de la 2FA est relancée,
+Better Auth écrit un nouveau secret, mais la lecture suivante peut renvoyer l'ancien. Les sessions
+sont touchées de la même façon (une session révoquée peut rester valide jusqu'à 60 s).
+Source : [Cloudflare, Query caching](https://developers.cloudflare.com/hyperdrive/concepts/query-caching/),
+section « Read-after-write behavior ».
+**Solution** : désactiver le cache sur la configuration Hyperdrive :
+
+```bash
+pnpm exec wrangler hyperdrive update <ID> --caching-disabled
+```
