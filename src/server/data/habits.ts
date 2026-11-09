@@ -11,6 +11,7 @@ import {
 } from "@/domain/habits";
 import type { PillarId } from "@/domain/pillars";
 import { getDb } from "../db/client";
+import { recomputeDay } from "@/features/progress/server/progress.service";
 import { habit, habitCheckIn } from "../db/schema";
 
 type HabitRow = typeof habit.$inferSelect;
@@ -86,13 +87,15 @@ export async function setCheckIn(
   await ownedHabit(userId, habitId);
   if (done) {
     await getDb().insert(habitCheckIn).values({ habitId, userId, day }).onConflictDoNothing();
-    return;
+  } else {
+    await getDb()
+      .delete(habitCheckIn)
+      .where(
+        and(eq(habitCheckIn.habitId, habitId), eq(habitCheckIn.userId, userId), eq(habitCheckIn.day, day)),
+      );
   }
-  await getDb()
-    .delete(habitCheckIn)
-    .where(
-      and(eq(habitCheckIn.habitId, habitId), eq(habitCheckIn.userId, userId), eq(habitCheckIn.day, day)),
-    );
+  // Keeps the optional daily score up to date (ADR 0010).
+  await recomputeDay(day, userId);
 }
 
 /** Activates a habit, enforcing the "2 habits in formation" rule. */

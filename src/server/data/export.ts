@@ -6,10 +6,12 @@ import { listHealthLogs, listJournalEntries } from "./entries";
 import { listHabits } from "./habits";
 import { findProfile } from "./profile";
 import { listAudits, listMilestones, listReviews } from "./progress";
+import { withUserData } from "../crypto/user-scope";
+import { exportLifeData } from "@/features/settings/server/life-export";
 
 /** Full decrypted export of the user's data (GDPR right of access/portability). */
 export async function exportUserData(userId: string) {
-  const [profile, habits, checkIns, journal, health, audits, milestones, reviews] = await Promise.all([
+  const [profile, habits, checkIns, journal, health, audits, milestones, reviews, life] = await Promise.all([
     findProfile(userId),
     listHabits(userId),
     getDb()
@@ -22,10 +24,12 @@ export async function exportUserData(userId: string) {
     listAudits(userId),
     listMilestones(userId),
     listReviews(userId),
+    withUserData(userId, exportLifeData),
   ]);
   return {
     exportedAt: new Date().toISOString(),
-    format: "k-coach-export/1",
+    // 2: adds `life`, the modules merged from NYX-KAIROS (ADR 0010).
+    format: "k-coach-export/2",
     profile: profile && {
       timeZone: profile.timeZone,
       programStart: profile.programStart,
@@ -39,5 +43,6 @@ export async function exportUserData(userId: string) {
     audits,
     milestones: milestones.map(({ phaseId, title, doneOn }) => ({ phaseId, title, doneOn })),
     reviews,
+    life,
   };
 }
