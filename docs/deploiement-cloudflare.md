@@ -154,6 +154,15 @@ Le nom du Worker dans le tableau de bord doit être identique au `name` de `wran
 (`k-profile`), sinon le build échoue
 ([dépannage Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/troubleshoot/#workers-name-requirement)).
 
+### Erreur « When developing locally, you should use a local Postgres connection string »
+
+Pendant le déploiement, `opennextjs-cloudflare deploy` démarre un runtime Workers **local**
+(`getPlatformProxy` de Wrangler). Wrangler refuse alors un binding Hyperdrive sans base locale.
+C'est pourquoi le bloc `hyperdrive` de `wrangler.jsonc` contient un `localConnectionString`
+factice (`localhost`) : il ne sert qu'en local et n'est jamais utilisé en production. La variable
+`CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE` le remplace quand elle est définie
+([doc Hyperdrive, développement local](https://developers.cloudflare.com/hyperdrive/configuration/local-development/)).
+
 ## 10. Vérifier
 
 - Les en-têtes de sécurité :

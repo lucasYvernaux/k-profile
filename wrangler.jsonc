@@ -27,6 +27,10 @@
       "binding": "HYPERDRIVE",
       // Replace with the id printed by `wrangler hyperdrive create k-profile-db ...`.
       "id": "ced9f23124014775b62e6bab2d72e4bf",
+      // Local-only placeholder (never used in production). `opennextjs-cloudflare deploy`
+      // starts a local Workers runtime, which refuses a Hyperdrive binding without it.
+      // CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE overrides it (local e2e tests).
+      "localConnectionString": "postgres://k:change-me@localhost:5432/k_dev",
     },
   ],
   // Evening reminder: checks every 10 minutes which push reminders are due.
