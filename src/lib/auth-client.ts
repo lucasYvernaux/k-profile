@@ -5,10 +5,7 @@ import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
   plugins: [
-    twoFactorClient({
-      onTwoFactorRedirect() {
-        window.location.assign("/connexion/2fa");
-      },
-    }),
+    // The sign-in form handles the redirect to /connexion/2fa itself.
+    twoFactorClient(),
   ],
 });

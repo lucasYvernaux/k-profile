@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
+/*
+ * Colour tokens. Contrast ratios checked against WCAG 2.2 AA
+ * (4.5:1 for text, 3:1 for UI components and focus indicators).
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --background: #fafaf9;
+  --surface: #ffffff;
+  --foreground: #1c1917;
+  --muted: #57534e;
+  --border: #78716c;
+  --accent: #0f766e;
+  --accent-contrast: #ffffff;
+  --accent-hover: #115e59;
+  --accent-soft: #ccfbf1;
+  --warning-bg: #fef3c7;
+  --warning-fg: #78350f;
+  --danger: #b91c1c;
+  --focus: #1d4ed8;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0c0a09;
+    --surface: #1c1917;
+    --foreground: #f5f5f4;
+    --muted: #d6d3d1;
+    --border: #78716c;
+    --accent: #5eead4;
+    --accent-contrast: #042f2e;
+    --accent-hover: #99f6e4;
+    --accent-soft: #134e4a;
+    --warning-bg: #451a03;
+    --warning-fg: #fde68a;
+    --danger: #fca5a5;
+    --focus: #93c5fd;
+    color-scheme: dark;
   }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-fg: var(--warning-fg);
+  --color-danger: var(--danger);
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  font-size: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.5;
 }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Reusable component styles (Tailwind v4 utilities so they can be composed). */
+@utility skip-link {
+    @apply absolute left-2 top-2 z-50 -translate-y-24 rounded bg-accent px-4 py-2 font-semibold text-accent-contrast focus:translate-y-0;
+  }
+
+@utility card {
+    @apply rounded-xl border border-border bg-surface p-4 sm:p-6;
+  }
+
+@utility btn {
+    @apply inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-lg border border-transparent px-4 py-2 font-semibold disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+@utility btn-primary {
+    @apply btn bg-accent text-accent-contrast hover:bg-accent-hover;
+  }
+
+@utility btn-secondary {
+    @apply btn border-border bg-surface text-foreground hover:bg-accent-soft;
+  }
+
+@utility btn-danger {
+    @apply btn bg-danger text-white dark:text-stone-950;
+  }
+
+@utility field {
+    @apply flex flex-col gap-1;
+  }
+
+@utility label {
+    @apply font-semibold;
+  }
+
+@utility hint {
+    @apply text-sm text-muted;
+  }
+
+@utility input {
+    @apply min-h-11 rounded-lg border border-border bg-surface px-3 py-2 text-foreground;
+  }
+
+@utility error-text {
+    @apply text-sm font-semibold text-danger;
+  }
+
+@utility notice {
+    @apply rounded-lg border border-border bg-accent-soft p-4;
+  }
+
+@utility warning {
+    @apply rounded-lg border border-border bg-warning-bg p-4 text-warning-fg;
+  }
+
+@utility link {
+    @apply font-semibold text-accent underline underline-offset-4;
+  }
+
+@utility page-title {
+    @apply text-2xl font-bold sm:text-3xl;
+  }
+
+@utility section-title {
+    @apply text-xl font-bold;
+  }
