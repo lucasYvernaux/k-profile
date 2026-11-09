@@ -18,7 +18,7 @@ sensibles.
 ## Décision
 
 - Désactiver `cacheComponents` et `partialPrefetching`.
-- Générer un nonce par requête dans `src/proxy.ts` ; CSP : `script-src 'self' 'nonce-…'
+- Générer un nonce par requête dans `src/middleware.ts` (middleware Edge, voir ADR 0008) ; CSP : `script-src 'self' 'nonce-…'
   'strict-dynamic'`, `style-src 'self' 'nonce-…'`, `object-src 'none'`, `base-uri 'self'`,
   `form-action 'self'`, `frame-ancestors 'none'`.
 - Forcer le rendu dynamique de toutes les pages avec `await connection()` dans le layout racine.

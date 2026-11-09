@@ -2,6 +2,11 @@ import { getSessionCookie } from "better-auth/cookies";
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
+ * Next.js 16 renamed middleware to "proxy", but proxy only runs on the
+ * Node.js runtime, which the OpenNext Cloudflare adapter does not support
+ * yet. This file stays a (deprecated) Edge middleware so it runs on
+ * Cloudflare Workers (ADR 0008).
+ *
  * 1. Strict, nonce-based Content Security Policy on every page
  *    (Next.js CSP guide; OWASP A05 Injection / XSS defence in depth).
  * 2. Optimistic redirect to sign-in when no session cookie is present.
@@ -39,14 +44,14 @@ function contentSecurityPolicy(nonce: string): string {
   ].join("; ");
 }
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isProtected = PROTECTED_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
   if (isProtected && !getSessionCookie(request)) {
     return NextResponse.redirect(new URL("/connexion", request.url));
   }
 
-  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
+  const nonce = btoa(crypto.randomUUID());
   const csp = contentSecurityPolicy(nonce);
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);
