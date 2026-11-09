@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { requireAppContext } from "@/server/data/profile";
 import { env } from "@/server/env";
+import { LifeSettings } from "@/features/settings/components/LifeSettings";
 import { DeleteAccount } from "./delete-account";
 import { PushSettings } from "./push-settings";
 import { ScheduleEditor } from "./schedule-editor";
@@ -16,6 +17,8 @@ async function Settings() {
         <h2 id="schedule-title" className="section-title">Journée type</h2>
         <ScheduleEditor schedule={profile.schedule} />
       </section>
+
+      <LifeSettings />
 
       <section className="card flex flex-col gap-4" aria-labelledby="push-title">
         <h2 id="push-title" className="section-title">Rappel du soir</h2>

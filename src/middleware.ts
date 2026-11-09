@@ -23,6 +23,18 @@ const PROTECTED_PREFIXES = [
   "/reglages",
   "/onboarding",
   "/securite",
+  // Life modules merged from NYX-KAIROS (ADR 0010)
+  "/routine",
+  "/bilan",
+  "/consommations",
+  "/sante",
+  "/reseau",
+  "/entretien",
+  "/objectifs",
+  "/revue-hebdo",
+  "/audit-mensuel",
+  "/manifeste",
+  "/atelier",
 ];
 
 function contentSecurityPolicy(nonce: string): string {
