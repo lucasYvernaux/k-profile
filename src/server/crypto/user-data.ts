@@ -4,6 +4,7 @@ import { getDb } from "../db/client";
 import { userKey } from "../db/schema";
 import { env } from "../env";
 import { decrypt, encrypt, generateKey } from "./cipher";
+import type { SealedField } from "./sealed-columns";
 
 /**
  * Envelope encryption: each user has a random data key, stored wrapped
@@ -54,12 +55,12 @@ export type FieldContext =
 /** Per-user sealer: encrypts and decrypts JSON values bound to a field. */
 export async function userCipher(userId: string) {
   const key = await dataKeyFor(userId);
-  const context = (field: FieldContext) => `${field}:${userId}`;
+  const context = (field: FieldContext | SealedField) => `${field}:${userId}`;
   return {
-    seal(field: FieldContext, value: unknown): string {
+    seal(field: FieldContext | SealedField, value: unknown): string {
       return encrypt(JSON.stringify(value), key, context(field));
     },
-    open<T>(field: FieldContext, payload: string): T {
+    open<T>(field: FieldContext | SealedField, payload: string): T {
       return JSON.parse(decrypt(payload, key, context(field)).toString("utf8")) as T;
     },
   };
