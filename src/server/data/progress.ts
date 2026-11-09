@@ -4,7 +4,7 @@ import type { Audit } from "@/domain/audit";
 import type { DayKey } from "@/domain/dates";
 import type { QuarterlyReviewInput } from "@/domain/review";
 import { userCipher } from "../crypto/user-data";
-import { db } from "../db/client";
+import { getDb } from "../db/client";
 import { audit, milestone, quarterlyReview, userProfile } from "../db/schema";
 
 /* Audit (Phase 0 baseline and follow-ups) ----------------------------- */
@@ -18,7 +18,7 @@ export interface AuditRecord {
 
 export async function saveBaselineAudit(userId: string, takenOn: DayKey, data: Audit): Promise<void> {
   const cipher = await userCipher(userId);
-  await db.transaction(async (tx) => {
+  await getDb().transaction(async (tx) => {
     await tx.insert(audit).values({
       userId,
       kind: "baseline",
@@ -34,7 +34,7 @@ export async function saveBaselineAudit(userId: string, takenOn: DayKey, data: A
 
 export async function saveFollowUpAudit(userId: string, takenOn: DayKey, data: Audit): Promise<void> {
   const cipher = await userCipher(userId);
-  await db.insert(audit).values({
+  await getDb().insert(audit).values({
     userId,
     kind: "follow_up",
     takenOn,
@@ -43,7 +43,7 @@ export async function saveFollowUpAudit(userId: string, takenOn: DayKey, data: A
 }
 
 export async function listAudits(userId: string): Promise<AuditRecord[]> {
-  const rows = await db.query.audit.findMany({
+  const rows = await getDb().query.audit.findMany({
     where: eq(audit.userId, userId),
     orderBy: [asc(audit.takenOn), asc(audit.createdAt)],
   });
@@ -59,7 +59,7 @@ export async function listAudits(userId: string): Promise<AuditRecord[]> {
 /* Roadmap milestones ------------------------------------------------- */
 
 export async function listMilestones(userId: string) {
-  return db.query.milestone.findMany({
+  return getDb().query.milestone.findMany({
     where: eq(milestone.userId, userId),
     orderBy: [asc(milestone.phaseId), asc(milestone.position)],
   });
@@ -70,7 +70,7 @@ export async function setMilestoneDone(
   milestoneId: string,
   doneOn: DayKey | null,
 ): Promise<void> {
-  await db
+  await getDb()
     .update(milestone)
     .set({ doneOn })
     .where(and(eq(milestone.id, milestoneId), eq(milestone.userId, userId)));
@@ -86,7 +86,7 @@ export interface ReviewRecord extends QuarterlyReviewInput {
 export async function saveReview(userId: string, review: QuarterlyReviewInput): Promise<void> {
   const cipher = await userCipher(userId);
   const payloadEnc = cipher.seal("quarterly_review.payload", review);
-  await db
+  await getDb()
     .insert(quarterlyReview)
     .values({ userId, quarter: review.quarter, payloadEnc })
     .onConflictDoUpdate({
@@ -96,7 +96,7 @@ export async function saveReview(userId: string, review: QuarterlyReviewInput): 
 }
 
 export async function listReviews(userId: string): Promise<ReviewRecord[]> {
-  const rows = await db.query.quarterlyReview.findMany({
+  const rows = await getDb().query.quarterlyReview.findMany({
     where: eq(quarterlyReview.userId, userId),
     orderBy: [desc(quarterlyReview.quarter)],
   });

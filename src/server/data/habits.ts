@@ -10,7 +10,7 @@ import {
   type HabitStatus,
 } from "@/domain/habits";
 import type { PillarId } from "@/domain/pillars";
-import { db } from "../db/client";
+import { getDb } from "../db/client";
 import { habit, habitCheckIn } from "../db/schema";
 
 type HabitRow = typeof habit.$inferSelect;
@@ -31,7 +31,7 @@ function toDomain(row: HabitRow): Habit {
 }
 
 export async function listHabits(userId: string): Promise<Habit[]> {
-  const rows = await db.query.habit.findMany({
+  const rows = await getDb().query.habit.findMany({
     where: eq(habit.userId, userId),
     orderBy: [asc(habit.queueOrder)],
   });
@@ -40,7 +40,7 @@ export async function listHabits(userId: string): Promise<Habit[]> {
 
 /** Check-ins since `from` (default: enough history for the stability window). */
 export async function listCheckIns(userId: string, from: DayKey): Promise<CheckIn[]> {
-  return db
+  return getDb()
     .select({ habitId: habitCheckIn.habitId, day: habitCheckIn.day })
     .from(habitCheckIn)
     .where(and(eq(habitCheckIn.userId, userId), gte(habitCheckIn.day, from)));
@@ -59,7 +59,7 @@ export async function applyProgression(userId: string, today: DayKey) {
   const { habits, checkIns } = await loadHabitState(userId, today);
   const plan = planProgression(habits, checkIns, today);
   if (plan.toStabilize.length > 0) {
-    await db
+    await getDb()
       .update(habit)
       .set({ status: "stable", stabilizedOn: today })
       .where(and(eq(habit.userId, userId), inArray(habit.id, plan.toStabilize)));
@@ -68,7 +68,7 @@ export async function applyProgression(userId: string, today: DayKey) {
 }
 
 async function ownedHabit(userId: string, habitId: string): Promise<HabitRow> {
-  const row = await db.query.habit.findFirst({
+  const row = await getDb().query.habit.findFirst({
     where: and(eq(habit.id, habitId), eq(habit.userId, userId)),
   });
   if (!row) {
@@ -85,10 +85,10 @@ export async function setCheckIn(
 ): Promise<void> {
   await ownedHabit(userId, habitId);
   if (done) {
-    await db.insert(habitCheckIn).values({ habitId, userId, day }).onConflictDoNothing();
+    await getDb().insert(habitCheckIn).values({ habitId, userId, day }).onConflictDoNothing();
     return;
   }
-  await db
+  await getDb()
     .delete(habitCheckIn)
     .where(
       and(eq(habitCheckIn.habitId, habitId), eq(habitCheckIn.userId, userId), eq(habitCheckIn.day, day)),
@@ -104,7 +104,7 @@ export async function activateHabit(userId: string, habitId: string, today: DayK
     return;
   }
   // A (re)activation starts a fresh measurement window.
-  await db
+  await getDb()
     .update(habit)
     .set({ status: "forming", activatedOn: today, stabilizedOn: null })
     .where(and(eq(habit.id, habitId), eq(habit.userId, userId)));
@@ -116,7 +116,7 @@ export async function setHabitStatus(
   status: Extract<HabitStatus, "paused" | "locked">,
 ): Promise<void> {
   await ownedHabit(userId, habitId);
-  await db
+  await getDb()
     .update(habit)
     .set({ status })
     .where(and(eq(habit.id, habitId), eq(habit.userId, userId)));
@@ -130,11 +130,11 @@ export interface NewHabit {
 }
 
 export async function addHabit(userId: string, input: NewHabit): Promise<void> {
-  const [{ last }] = await db
+  const [{ last }] = await getDb()
     .select({ last: max(habit.queueOrder) })
     .from(habit)
     .where(eq(habit.userId, userId));
-  await db.insert(habit).values({
+  await getDb().insert(habit).values({
     userId,
     title: input.title,
     pillar: input.pillar,
@@ -154,7 +154,7 @@ export async function moveHabit(userId: string, habitId: string, direction: -1 |
     return;
   }
   const current = habits[index];
-  await db.transaction(async (tx) => {
+  await getDb().transaction(async (tx) => {
     await tx
       .update(habit)
       .set({ queueOrder: neighbour.queueOrder })
@@ -167,5 +167,5 @@ export async function moveHabit(userId: string, habitId: string, direction: -1 |
 }
 
 export async function deleteHabit(userId: string, habitId: string): Promise<void> {
-  await db.delete(habit).where(and(eq(habit.id, habitId), eq(habit.userId, userId)));
+  await getDb().delete(habit).where(and(eq(habit.id, habitId), eq(habit.userId, userId)));
 }

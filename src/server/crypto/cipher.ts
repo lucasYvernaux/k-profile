@@ -34,7 +34,9 @@ export function encrypt(plaintext: string | Buffer, key: Buffer, associatedData:
   const iv = randomBytes(IV_BYTES);
   const cipher = createCipheriv(ALGORITHM, key, iv);
   cipher.setAAD(Buffer.from(associatedData, "utf8"));
-  const ciphertext = Buffer.concat([cipher.update(plaintext), cipher.final()]);
+  // Explicit Buffer: the Workers runtime requires it (no implicit utf8 encoding).
+  const input = typeof plaintext === "string" ? Buffer.from(plaintext, "utf8") : plaintext;
+  const ciphertext = Buffer.concat([cipher.update(input), cipher.final()]);
   const tag = cipher.getAuthTag();
   return [VERSION, iv, tag, ciphertext].map((part) =>
     typeof part === "string" ? part : part.toString("base64url"),

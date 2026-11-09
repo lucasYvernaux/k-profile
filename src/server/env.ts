@@ -8,7 +8,8 @@ const base64Key = z
   });
 
 const envSchema = z.object({
-  DATABASE_URL: z.url(),
+  // Required on Node.js; on Cloudflare Workers the HYPERDRIVE binding is used instead.
+  DATABASE_URL: z.url().optional(),
   BETTER_AUTH_SECRET: z.string().min(32),
   BETTER_AUTH_URL: z.url(),
   DATA_ENCRYPTION_KEY: base64Key,

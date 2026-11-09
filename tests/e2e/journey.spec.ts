@@ -1,6 +1,6 @@
 import { expect, test, type BrowserContext, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import postgres from "postgres";
+import { Client } from "pg";
 import { expectAccessible, totp } from "./helpers";
 
 /*
@@ -128,16 +128,17 @@ test("journal entries made offline are synced when back online", async () => {
 });
 
 test("journal content is encrypted at rest", async () => {
-  const sql = postgres(DATABASE_URL, { max: 1 });
+  const client = new Client({ connectionString: DATABASE_URL });
+  await client.connect();
   try {
-    const rows = await sql<{ payload_enc: string }[]>`SELECT payload_enc FROM journal_entry`;
+    const { rows } = await client.query<{ payload_enc: string }>("SELECT payload_enc FROM journal_entry");
     expect(rows.length).toBe(2);
     for (const row of rows) {
       expect(row.payload_enc).toMatch(/^v1\./);
       expect(row.payload_enc).not.toContain("calme");
     }
   } finally {
-    await sql.end();
+    await client.end();
   }
 });
 
@@ -222,13 +223,16 @@ test("account deletion removes everything", async () => {
   await page.getByRole("button", { name: "Supprimer définitivement mon compte" }).click();
   await expect(page).toHaveURL(/\/$/);
 
-  const sql = postgres(DATABASE_URL, { max: 1 });
+  const client = new Client({ connectionString: DATABASE_URL });
+  await client.connect();
   try {
-    const [{ count }] = await sql<{ count: number }[]>`
-      SELECT (SELECT count(*) FROM "user") + (SELECT count(*) FROM journal_entry)
-           + (SELECT count(*) FROM user_key) + (SELECT count(*) FROM audit) AS count`;
+    const { rows } = await client.query<{ count: string }>(
+      `SELECT (SELECT count(*) FROM "user") + (SELECT count(*) FROM journal_entry)
+            + (SELECT count(*) FROM user_key) + (SELECT count(*) FROM audit) AS count`,
+    );
+    const count = rows[0].count;
     expect(Number(count)).toBe(0);
   } finally {
-    await sql.end();
+    await client.end();
   }
 });

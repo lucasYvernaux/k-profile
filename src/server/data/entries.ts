@@ -4,7 +4,7 @@ import type { DayKey } from "@/domain/dates";
 import type { JournalEntry, JournalEntryInput } from "@/domain/emotions";
 import type { DailyLog } from "@/domain/vigilance";
 import { userCipher } from "../crypto/user-data";
-import { db } from "../db/client";
+import { getDb } from "../db/client";
 import { dailyEntry, journalEntry } from "../db/schema";
 
 /* Daily priorities and health log ------------------------------------- */
@@ -17,7 +17,7 @@ export interface DailyRecord {
 const EMPTY_HEALTH: DailyRecord["health"] = { sleepHours: null, drinks: null };
 
 export async function getDailyRecord(userId: string, day: DayKey): Promise<DailyRecord> {
-  const row = await db.query.dailyEntry.findFirst({
+  const row = await getDb().query.dailyEntry.findFirst({
     where: and(eq(dailyEntry.userId, userId), eq(dailyEntry.day, day)),
   });
   if (!row) {
@@ -33,7 +33,7 @@ export async function getDailyRecord(userId: string, day: DayKey): Promise<Daily
 export async function savePriorities(userId: string, day: DayKey, priorities: string[]): Promise<void> {
   const cipher = await userCipher(userId);
   const prioritiesEnc = cipher.seal("daily_entry.priorities", priorities);
-  await db
+  await getDb()
     .insert(dailyEntry)
     .values({ userId, day, prioritiesEnc })
     .onConflictDoUpdate({ target: [dailyEntry.userId, dailyEntry.day], set: { prioritiesEnc } });
@@ -45,14 +45,14 @@ export async function saveHealth(userId: string, log: DailyLog): Promise<void> {
     sleepHours: log.sleepHours,
     drinks: log.drinks,
   });
-  await db
+  await getDb()
     .insert(dailyEntry)
     .values({ userId, day: log.day, healthEnc })
     .onConflictDoUpdate({ target: [dailyEntry.userId, dailyEntry.day], set: { healthEnc } });
 }
 
 export async function listHealthLogs(userId: string, from: DayKey, to: DayKey): Promise<DailyLog[]> {
-  const rows = await db.query.dailyEntry.findMany({
+  const rows = await getDb().query.dailyEntry.findMany({
     where: and(eq(dailyEntry.userId, userId), gte(dailyEntry.day, from), lte(dailyEntry.day, to)),
     orderBy: [asc(dailyEntry.day)],
   });
@@ -77,7 +77,7 @@ export async function addJournalEntry(
 ): Promise<void> {
   const cipher = await userCipher(userId);
   const payload: JournalPayload = { emotions: input.emotions, context: input.context };
-  await db
+  await getDb()
     .insert(journalEntry)
     .values({
       userId,
@@ -89,7 +89,7 @@ export async function addJournalEntry(
 }
 
 export async function listJournalEntries(userId: string, limit?: number): Promise<JournalEntry[]> {
-  const rows = await db.query.journalEntry.findMany({
+  const rows = await getDb().query.journalEntry.findMany({
     where: eq(journalEntry.userId, userId),
     orderBy: [desc(journalEntry.day), desc(journalEntry.createdAt)],
     limit,
@@ -104,7 +104,7 @@ export async function listJournalEntries(userId: string, limit?: number): Promis
 }
 
 export async function deleteJournalEntry(userId: string, entryId: string): Promise<void> {
-  await db
+  await getDb()
     .delete(journalEntry)
     .where(and(eq(journalEntry.id, entryId), eq(journalEntry.userId, userId)));
 }

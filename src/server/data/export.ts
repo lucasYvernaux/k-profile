@@ -1,6 +1,6 @@
 import "server-only";
 import { asc, eq } from "drizzle-orm";
-import { db } from "../db/client";
+import { getDb } from "../db/client";
 import { habitCheckIn } from "../db/schema";
 import { listHealthLogs, listJournalEntries } from "./entries";
 import { listHabits } from "./habits";
@@ -12,7 +12,7 @@ export async function exportUserData(userId: string) {
   const [profile, habits, checkIns, journal, health, audits, milestones, reviews] = await Promise.all([
     findProfile(userId),
     listHabits(userId),
-    db
+    getDb()
       .select({ habitId: habitCheckIn.habitId, day: habitCheckIn.day })
       .from(habitCheckIn)
       .where(eq(habitCheckIn.userId, userId))

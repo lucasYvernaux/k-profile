@@ -3,7 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { sendNotification, setVapidDetails } from "web-push";
 import { toDayKey } from "@/domain/dates";
 import { userCipher } from "../crypto/user-data";
-import { db } from "../db/client";
+import { getDb } from "../db/client";
 import { pushSubscription, userProfile } from "../db/schema";
 import { env } from "../env";
 
@@ -20,14 +20,14 @@ export async function savePushSubscription(
 ): Promise<void> {
   const cipher = await userCipher(userId);
   const keysEnc = cipher.seal("push_subscription.keys", keys);
-  await db
+  await getDb()
     .insert(pushSubscription)
     .values({ userId, endpoint, keysEnc, reminderTime })
     .onConflictDoUpdate({ target: pushSubscription.endpoint, set: { userId, keysEnc, reminderTime, enabled: true } });
 }
 
 export async function deletePushSubscription(userId: string, endpoint: string): Promise<void> {
-  await db
+  await getDb()
     .delete(pushSubscription)
     .where(and(eq(pushSubscription.userId, userId), eq(pushSubscription.endpoint, endpoint)));
 }
@@ -53,7 +53,7 @@ export async function sendDueReminders(now = new Date()): Promise<{ sent: number
   if (!vapidReady()) {
     return { sent: 0, removed: 0 };
   }
-  const rows = await db
+  const rows = await getDb()
     .select({ subscription: pushSubscription, timeZone: userProfile.timeZone })
     .from(pushSubscription)
     .innerJoin(userProfile, eq(userProfile.userId, pushSubscription.userId))
@@ -71,12 +71,12 @@ export async function sendDueReminders(now = new Date()): Promise<{ sent: number
     const keys = cipher.open<PushKeys>("push_subscription.keys", subscription.keysEnc);
     try {
       await sendNotification({ endpoint: subscription.endpoint, keys }, REMINDER, { TTL: 3600 });
-      await db.update(pushSubscription).set({ lastSentOn: today }).where(eq(pushSubscription.id, subscription.id));
+      await getDb().update(pushSubscription).set({ lastSentOn: today }).where(eq(pushSubscription.id, subscription.id));
       sent += 1;
     } catch (error) {
       const status = (error as { statusCode?: number }).statusCode;
       if (status === 404 || status === 410) {
-        await db.delete(pushSubscription).where(eq(pushSubscription.id, subscription.id));
+        await getDb().delete(pushSubscription).where(eq(pushSubscription.id, subscription.id));
         removed += 1;
       }
     }

@@ -1,6 +1,6 @@
 import "server-only";
 import { eq } from "drizzle-orm";
-import { db } from "../db/client";
+import { getDb } from "../db/client";
 import { userKey } from "../db/schema";
 import { env } from "../env";
 import { decrypt, encrypt, generateKey } from "./cipher";
@@ -22,12 +22,12 @@ function wrapContext(userId: string): string {
 }
 
 async function dataKeyFor(userId: string): Promise<Buffer> {
-  const existing = await db.query.userKey.findFirst({ where: eq(userKey.userId, userId) });
+  const existing = await getDb().query.userKey.findFirst({ where: eq(userKey.userId, userId) });
   if (existing) {
     return decrypt(existing.wrappedKey, masterKey(), wrapContext(userId));
   }
   const key = generateKey();
-  await db
+  await getDb()
     .insert(userKey)
     .values({
       userId,
@@ -36,7 +36,7 @@ async function dataKeyFor(userId: string): Promise<Buffer> {
     })
     .onConflictDoNothing();
   // Re-read in case a concurrent request created the key first.
-  const stored = await db.query.userKey.findFirst({ where: eq(userKey.userId, userId) });
+  const stored = await getDb().query.userKey.findFirst({ where: eq(userKey.userId, userId) });
   if (!stored) {
     throw new Error("User data key could not be created");
   }

@@ -6,14 +6,14 @@ import { toDayKey, type DayKey } from "@/domain/dates";
 import { DEFAULT_HABIT_QUEUE } from "@/domain/habit-catalog";
 import { PHASES } from "@/domain/roadmap";
 import { DEFAULT_SCHEDULE, type ScheduleBlock } from "@/domain/schedule";
-import { db } from "../db/client";
+import { getDb } from "../db/client";
 import { habit, milestone, userProfile } from "../db/schema";
 import { requireUser, type CurrentUser } from "../session";
 
 export type Profile = typeof userProfile.$inferSelect;
 
 export async function findProfile(userId: string): Promise<Profile | undefined> {
-  return db.query.userProfile.findFirst({ where: eq(userProfile.userId, userId) });
+  return getDb().query.userProfile.findFirst({ where: eq(userProfile.userId, userId) });
 }
 
 /**
@@ -25,7 +25,7 @@ export async function ensureProfile(userId: string): Promise<Profile> {
   if (existing) {
     return existing;
   }
-  await db.transaction(async (tx) => {
+  await getDb().transaction(async (tx) => {
     const inserted = await tx
       .insert(userProfile)
       .values({
@@ -88,14 +88,14 @@ export async function requireAppContext(): Promise<AppContext> {
 }
 
 export async function updateSchedule(userId: string, schedule: ScheduleBlock[]): Promise<void> {
-  await db.update(userProfile).set({ schedule }).where(eq(userProfile.userId, userId));
+  await getDb().update(userProfile).set({ schedule }).where(eq(userProfile.userId, userId));
 }
 
 export async function updateMicroThresholds(
   userId: string,
   thresholds: MicroThresholds,
 ): Promise<void> {
-  await db
+  await getDb()
     .update(userProfile)
     .set({ microThresholds: thresholds })
     .where(eq(userProfile.userId, userId));

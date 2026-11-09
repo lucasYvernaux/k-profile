@@ -1,5 +1,5 @@
 import "server-only";
-import { auth } from "../auth";
+import { getAuth } from "../auth";
 import { env } from "../env";
 
 /**
@@ -13,7 +13,7 @@ export function isSameOrigin(request: Request): boolean {
 
 /** Signed-in user with 2FA enabled, or null. */
 export async function apiUser(request: Request): Promise<{ id: string } | null> {
-  const session = await auth.api.getSession({ headers: request.headers });
+  const session = await getAuth().api.getSession({ headers: request.headers });
   if (!session || !session.user.twoFactorEnabled) {
     return null;
   }

@@ -2,7 +2,7 @@ import "server-only";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
-import { auth } from "./auth";
+import { getAuth } from "./auth";
 
 export interface CurrentUser {
   id: string;
@@ -13,7 +13,7 @@ export interface CurrentUser {
 
 /** Reads and validates the session once per request. */
 export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getAuth().api.getSession({ headers: await headers() });
   if (!session) {
     return null;
   }
