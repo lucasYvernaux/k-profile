@@ -19,6 +19,8 @@
     "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
+    "@neon/config": "^1.13.0",
+    "@neon/env": "^2.1.0",
     "@opennextjs/cloudflare": "1.20.16",
     "better-auth": "1.7.18",
     "drizzle-orm": "0.45.4",

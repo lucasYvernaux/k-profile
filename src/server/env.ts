@@ -8,8 +8,11 @@ const base64Key = z
   });
 
 const envSchema = z.object({
-  // Required on Node.js; on Cloudflare Workers the HYPERDRIVE binding is used instead.
+  // Neon pooled connection (app traffic). Required on Node.js; on Cloudflare
+  // Workers the HYPERDRIVE binding is used instead.
   DATABASE_URL: z.url().optional(),
+  // Neon direct connection, used only for migrations (drizzle.config.ts).
+  DATABASE_URL_UNPOOLED: z.url().optional(),
   BETTER_AUTH_SECRET: z.string().min(32),
   BETTER_AUTH_URL: z.url(),
   DATA_ENCRYPTION_KEY: base64Key,

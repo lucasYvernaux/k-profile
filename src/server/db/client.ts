@@ -9,10 +9,12 @@ import * as schema from "./schema";
  * Database access works in two runtimes (ADR 0008):
  *
  * - Node.js (`next dev`, `next start`, tests): one shared pool built from
- *   DATABASE_URL, reused across requests.
+ *   DATABASE_URL, reused across requests. With Neon, DATABASE_URL is the
+ *   pooled (-pooler, PgBouncer) endpoint, recommended for app traffic.
  * - Cloudflare Workers: I/O objects cannot be shared between requests, so a
  *   new client is created per request from the Hyperdrive binding, which
- *   keeps the real connection pool next to the database. The client is
+ *   keeps the real connection pool next to the database. Neon's guidance for
+ *   Cloudflare is node-postgres + Hyperdrive. The client is
  *   memoised per request (keyed on the request's ExecutionContext) so a
  *   single request never opens more than one connection pool.
  */
