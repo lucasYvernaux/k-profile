@@ -23,12 +23,12 @@ export const SOURCES = {
   },
   roberts2017: {
     id: "roberts2017",
-    citation: "Roberts et al. (2017), Psychological Bulletin, doi:10.1037/bul0000088",
+    citation: "Roberts, Luo, Briley, Chow, Su & Hill (2017), Psychological Bulletin, 143(2), 117-141, doi:10.1037/bul0000088",
     url: "https://doi.org/10.1037/bul0000088",
   },
   hudson2018: {
     id: "hudson2018",
-    citation: "Hudson et al. (2018), Journal of Personality and Social Psychology, doi:10.1037/pspp0000221",
+    citation: "Hudson, Briley, Chopik & Derringer (2019, en ligne 2018), Journal of Personality and Social Psychology, 117(4), doi:10.1037/pspp0000221",
     url: "https://doi.org/10.1037/pspp0000221",
   },
   lieberman2007: {
@@ -52,6 +52,11 @@ export const SOURCES = {
     citation: "Samuel Hayot, Hayot Expertise, mis à jour le 8 juin 2026",
     url: "https://hayot-expertise.fr/blog/plafonds-micro-entreprise-2026-chiffres-bascule-tva",
   },
+  suicidePrevention: {
+    id: "suicidePrevention",
+    citation: "Ministère de la Santé, que faire face à une crise suicidaire",
+    url: "https://sante.gouv.fr/prevention-en-sante/sante-mentale/promotion-et-prevention/la-prevention-du-suicide/article/que-faire-et-a-qui-s-adresser-face-a-une-crise-suicidaire",
+  },
   ipip: {
     id: "ipip",
     citation: "International Personality Item Pool (domaine public)",
@@ -60,6 +65,13 @@ export const SOURCES = {
 } as const satisfies Record<string, Source>;
 
 export type SourceId = keyof typeof SOURCES;
+
+/** Personality change through intervention (Roberts et al., 2017, abstract). */
+export const PERSONALITY_CHANGE = {
+  averageInterventionWeeks: 24,
+  studies: 207,
+  source: SOURCES.roberts2017,
+} as const;
 
 /** Habit formation figures (Lally et al., 2010, via the BPS digest). */
 export const HABIT_FORMATION = {

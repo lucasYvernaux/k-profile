@@ -100,9 +100,13 @@ export async function activateHabit(userId: string, habitId: string, today: DayK
   const habits = await listHabits(userId);
   assertCanActivate(habits, habitId);
   const row = await ownedHabit(userId, habitId);
+  if (row.status === "forming") {
+    return;
+  }
+  // A (re)activation starts a fresh measurement window.
   await db
     .update(habit)
-    .set({ status: "forming", activatedOn: row.activatedOn ?? today })
+    .set({ status: "forming", activatedOn: today, stabilizedOn: null })
     .where(and(eq(habit.id, habitId), eq(habit.userId, userId)));
 }
 
