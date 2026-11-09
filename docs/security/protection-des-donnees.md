@@ -19,7 +19,13 @@
 
 ## Hébergement
 
-Le brief exige un hébergement dans l'UE. **Le fournisseur n'est pas encore choisi.** Critères :
+L'app est prévue pour Cloudflare Workers (ADR 0008), avec une base PostgreSQL dans l'UE derrière
+Hyperdrive. Les données sont stockées chiffrées dans la base, mais **déchiffrées en mémoire dans le
+Worker**, sur le réseau Cloudflare (entreprise américaine). À vérifier avant la mise en production :
+l'accord de traitement des données (DPA) de Cloudflare et l'encadrement des transferts hors UE.
+
+Le brief exige un hébergement dans l'UE. **Le fournisseur de base de données n'est pas encore
+choisi.** Critères :
 région UE, PostgreSQL managé avec chiffrement disque et sauvegardes chiffrées, TLS vers la base,
 gestionnaire de secrets.
 

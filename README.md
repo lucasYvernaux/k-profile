@@ -25,7 +25,8 @@ Ce qui est reporté en V2 : voir `docs/adr/0007-perimetre-mvp.md`.
 
 ## Stack
 
-Next.js 16.4 (App Router) · React 19 · TypeScript 5.9 · PostgreSQL 16 + Drizzle ORM ·
+Next.js 16.4 (App Router) · React 19 · TypeScript 5.9 · PostgreSQL 16 + Drizzle ORM (pg) ·
+Cloudflare Workers (OpenNext, Hyperdrive) ·
 Better Auth (mot de passe + TOTP) · Zod · Tailwind CSS 4 · Vitest · Playwright + axe-core · pnpm 10.
 
 ## Démarrer en local
@@ -69,10 +70,23 @@ remettre `ALLOW_SIGNUP=false`.
 | `pnpm test:e2e` | Tests e2e : réinitialise la base `k_test` puis lance Playwright (faire `pnpm build` avant) |
 | `pnpm db:generate` / `pnpm db:migrate` | Migrations Drizzle |
 
+## Déploiement sur Cloudflare Workers
+
+Guide pas à pas : [`docs/deploiement-cloudflare.md`](docs/deploiement-cloudflare.md)
+(OpenNext, Hyperdrive, secrets, Workers Builds depuis GitHub). Décisions : ADR 0008.
+
+| Commande | Rôle |
+|---|---|
+| `pnpm cf:build` | Build pour Workers (`.open-next/`) |
+| `pnpm cf:preview` | Build puis exécution locale dans workerd |
+| `pnpm cf:deploy` | Build puis déploiement sur Cloudflare |
+| `E2E_TARGET=workers pnpm test:e2e` | Tests e2e dans workerd (après `pnpm cf:build`) |
+
 ## Rappels push
 
-Générer des clés VAPID (`npx web-push generate-vapid-keys`), les mettre dans `.env.local`, puis
-faire appeler toutes les 5 à 15 minutes, par un planificateur externe :
+Générer des clés VAPID (`npx web-push generate-vapid-keys`). Sur Cloudflare, le Cron Trigger de
+`wrangler.jsonc` appelle la route toutes les 10 minutes. Ailleurs, la faire appeler toutes les 5 à
+15 minutes par un planificateur externe :
 
 ```bash
 curl -X POST -H "Authorization: Bearer $CRON_SECRET" https://<domaine>/api/cron/reminders
