@@ -294,6 +294,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   animation: flicker 6s infinite;
 }
 
+/* One-time entrance by focus (dashboard pillar grid, ADR 0014). Pure CSS: shown even without JS. */
+@keyframes focus-in {
+  from { opacity: 0; filter: blur(8px); }
+}
+
+.focus-in {
+  animation: focus-in 0.8s ease-out both;
+}
+
 /* Gold slider; the screen sets --fill to the current value. */
 .life-zone input[type="range"] {
   -webkit-appearance: none;
