@@ -50,7 +50,8 @@
   // Non-secret configuration. BETTER_AUTH_URL must be the public HTTPS URL.
   "vars": {
     "BETTER_AUTH_URL": "https://k-profile.yvernaux-web-solutions.com",
-    "ALLOW_SIGNUP": "true",
+    // Closed in production (ADR 0003); the Preview below stays open for its test account.
+    "ALLOW_SIGNUP": "false",
     "VAPID_PUBLIC_KEY": "BFcflbhBqHXxmVgnD4t7qxQhwHHpglHnp95fIzLlzIAqhZDQgrznNjYi34t92qC5PUZgFTztLuxUNa3SUe6axg8",
     "VAPID_SUBJECT": "mailto:lucas.yvernaux@gmail.com",
   },
