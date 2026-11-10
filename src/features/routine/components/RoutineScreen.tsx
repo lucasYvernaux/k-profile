@@ -356,7 +356,7 @@ export default function RoutineScreen() {
               <div className="grid grid-cols-2 gap-3 w-full mt-3">
                 <div className="bg-raise/40 border border-line rounded-lg p-3 text-center">
                   <div className="flex items-center justify-center gap-1.5 text-flame font-display text-xl font-bold">
-                    <Flame className="w-4 h-4 flicker" /> {player?.streak ?? 0}
+                    <Flame className="w-4 h-4" aria-hidden="true" /> {player?.streak ?? 0}
                   </div>
                   <div className="text-[9px] uppercase tracking-[0.18em] text-smoke mt-1">Streak actuel</div>
                 </div>

@@ -22,6 +22,7 @@ import { NetworkWeb } from "./NetworkWeb";
 import { FamilyTree } from "./FamilyTree";
 import { InterestsBoard } from "./InterestsBoard";
 import { InterestsInput } from "./InterestsInput";
+import Counter from "@/shared/ui/react-bits/Counter";
 import { Avatar, ChannelBadge, ColdBanner, InterestChip, IntimacyDots } from "./PersonBits";
 
 const QUICK = ["vu", "appel", "visio", "message"] as const;
@@ -514,13 +515,16 @@ export default function ReseauPage() {
         <div className="grid grid-cols-4 gap-2">
           {[
             { label: "Réseau", value: members.length, color: "#e5e5e5" },
-            { label: "Cercle", value: inner.length, color: "#f59e0b" },
+            { label: "Cercle", value: inner.length, color: "#d4af37" },
             { label: "En retard", value: overdue.length, color: overdue.length ? "#f87171" : "#10b981" },
             { label: cold.length ? "En froid" : "Vus 7 j", value: cold.length || weekPeople, color: cold.length ? COLD_COLOR : "#a78bfa" },
           ].map((s) => (
             <div key={s.label} className="card-frame px-3 py-3 flex flex-col justify-center">
               <div className="text-[9px] uppercase tracking-[0.14em] text-smoke">{s.label}</div>
-              <div className="font-display text-2xl font-bold" style={{ color: s.color, fontFamily: "var(--font-mono-family)" }}>{s.value}</div>
+              <div className="font-display text-2xl font-bold" style={{ color: s.color, fontFamily: "var(--font-mono-family)" }}>
+                {/* Still on load; the digits roll only when the count changes. */}
+                <Counter value={s.value} locale="fr-FR" fontSize="inherit" intro={false} bounce={0} motionBlur={false} duration={0.6} />
+              </div>
             </div>
           ))}
         </div>

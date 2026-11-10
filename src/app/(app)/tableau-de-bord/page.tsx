@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { PillarCards } from "@/components/pillar-cards";
+import FadeContent from "@/shared/ui/react-bits/FadeContent";
 import { ScoreCharts } from "@/components/score-charts";
 import { VigilanceList } from "@/components/vigilance-list";
 import { pendingReviewQuarter, scoreSeries } from "@/domain/review";
@@ -30,7 +31,10 @@ async function Dashboard() {
           <Link href="/revue" className="link">Commencer la revue</Link>
         </p>
       )}
-      <PillarCards indicators={indicators} latestScores={latest?.scores} />
+      {/* The one motion of this screen: the grid comes into focus once. */}
+      <FadeContent effect="focus" trigger="mount" duration={0.8} ease="power2.out">
+        <PillarCards indicators={indicators} latestScores={latest?.scores} />
+      </FadeContent>
       <section className="card flex flex-col gap-4" aria-labelledby="evolution-title">
         <h2 id="evolution-title" className="section-title">Évolution des notes trimestrielles</h2>
         <ScoreCharts series={scoreSeries(reviews)} />

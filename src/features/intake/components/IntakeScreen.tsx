@@ -8,6 +8,7 @@ import { ScreenFrame } from "@/shared/layout/ScreenFrame";
 import { Card, SectionTitle, Btn, Modal, Field, Input, EmptyState, ProgressBar } from "@/shared/ui/primitives";
 import { Bars, ScoreLine } from "@/shared/ui/charts";
 import { DynIcon } from "@/shared/ui/icon";
+import SloshGauge from "@/shared/ui/react-bits/SloshGauge";
 import {
   DEFAULT_CONFIG, DRINK_PRESETS, KIND_META, caffeineRemaining, estimateBac, estimateBacExtended,
   expectedWaterAt, formatAmount, formatDuration, gramsOfAlcohol, gramsToUnits, minutesUntilBelow, widmarkR,
@@ -56,43 +57,26 @@ function BacGauge({ bac, limit }: { bac: number; limit: number }) {
 function WaterVessel({ pct, total, goal }: { pct: number; total: number; goal: number }) {
   const fill = Math.min(100, pct);
   return (
-    <div className="relative w-[132px] h-[168px] mx-auto">
-      <svg viewBox="0 0 120 150" className="w-full h-full">
-        <defs>
-          <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#7dd3fc" />
-            <stop offset="100%" stopColor="#0284c7" />
-          </linearGradient>
-          <clipPath id="vessel">
-            <path d="M22 10 L98 10 L88 140 Q87 146 80 146 L40 146 Q33 146 32 140 Z" />
-          </clipPath>
-        </defs>
-        <path d="M22 10 L98 10 L88 140 Q87 146 80 146 L40 146 Q33 146 32 140 Z" fill="#101013" stroke="#26262a" strokeWidth="2" />
-        <g clipPath="url(#vessel)">
-          <motion.rect
-            x="0" width="120" fill="url(#waterGrad)" opacity="0.85"
-            initial={{ y: 150, height: 0 }}
-            animate={{ y: 150 - (fill / 100) * 140, height: (fill / 100) * 140 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          />
-          <motion.ellipse
-            cx="60" rx="42" ry="4" fill="#bae6fd" opacity="0.7"
-            initial={{ cy: 150 }}
-            animate={{ cy: 150 - (fill / 100) * 140 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          />
-        </g>
-        {[25, 50, 75].map((m) => (
-          <line key={m} x1={30} x2={44} y1={150 - (m / 100) * 140} y2={150 - (m / 100) * 140} stroke="#3f3f46" strokeWidth="1.5" />
-        ))}
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        <span className="font-display text-2xl font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]" style={{ fontFamily: "var(--font-mono-family)" }}>
-          {(total / 1000).toFixed(2).replace(/0$/, "")}
-          <span className="text-sm"> L</span>
-        </span>
-        <span className="text-[9px] text-white/80 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">sur {(goal / 1000).toFixed(1)} L</span>
-      </div>
+    <div className="flex flex-col items-center gap-2">
+      {/* Still on load; the water moves only when an intake is added. */}
+      <SloshGauge
+        value={fill}
+        liquidColor="#38bdf8"
+        glassColor="#101010"
+        width={96}
+        height={160}
+        radius={18}
+        ticks={4}
+        viscosity={0.05}
+        tilt={0.15}
+        splash={0}
+        unit="%"
+        ariaLabel="Hydratation du jour, en pourcentage de l'objectif"
+      />
+      <p className="text-center font-display text-lg font-bold text-ash" style={{ fontFamily: "var(--font-mono-family)" }}>
+        {(total / 1000).toFixed(2).replace(/0$/, "")}
+        <span className="text-sm text-smoke"> L sur {(goal / 1000).toFixed(1)} L</span>
+      </p>
     </div>
   );
 }

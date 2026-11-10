@@ -6,6 +6,7 @@ import { Pen as Pencil, Plus, Gears as Settings2, Trash as Trash2, Cross as X } 
 import { ScreenFrame } from "@/shared/layout/ScreenFrame";
 import { Card, SectionTitle, Btn, Modal, Field, Input, Select, Textarea, Slider, EmptyState, ProgressBar } from "@/shared/ui/primitives";
 import { Bars } from "@/shared/ui/charts";
+import BlurText from "@/shared/ui/react-bits/BlurText";
 import { DynIcon } from "@/shared/ui/icon";
 import {
   BODYWEIGHT_EXERCISES, DEFAULT_SANTE, MEASURES, WORKOUT_TYPES, bmi, bmiCategory, bodyWeightOn, bodyweightInfo,
@@ -539,8 +540,9 @@ export default function SantePage() {
           <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-smoke mb-2">
             <DynIcon name="scale" className="w-3.5 h-3.5 text-ember" /> Poids
           </div>
-          <div className="font-display text-3xl font-bold text-ash" style={MONO}>
-            {fmt(weight)}
+          <div className="flex items-baseline font-display text-3xl font-bold text-ash" style={MONO}>
+            {/* Soft focus reveal, once: counting from 0 kg would mean nothing. */}
+            <BlurText key={fmt(weight)} text={fmt(weight)} effect="focus" blur={6} stepDuration={0.45} />
             <span className="text-sm text-smoke ml-1">kg</span>
           </div>
           <div className="mt-1.5 flex items-center gap-2 flex-wrap">

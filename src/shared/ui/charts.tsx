@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { PILLARS } from "@/shared/domain/constants";
 import { clamp } from "@/shared/lib/numbers";
 import { scoreColor, scoreTextColor } from "@/shared/ui/score-color";
+import CountUp from "@/shared/ui/react-bits/CountUp";
 
 /* ------------------------------------------------------------
    Jauge de puissance (arc 240°)
@@ -53,20 +54,15 @@ export function PowerGauge({ value, size = 180, label }: { value: number; size?:
           initial={{ strokeDasharray: "0 1000" }}
           animate={{ strokeDasharray: `${pct * 4.6 * r} 1000` }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          style={{ filter: "drop-shadow(0 0 6px rgba(245,158,11,0.5))" }}
+          style={{ filter: "drop-shadow(0 0 6px rgba(212,175,55,0.5))" }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center pt-4">
-        <motion.span
-          key={Math.round(value)}
-          initial={{ opacity: 0.4, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="font-display text-4xl font-bold text-ash text-glow"
-          style={{ fontFamily: "var(--font-mono-family)" }}
-        >
-          {Math.round(value)}
+        {/* Counts once, in step with the arc (same 1.2 s ease-out). */}
+        <span className="font-display text-4xl font-bold text-ash text-glow" style={{ fontFamily: "var(--font-mono-family)" }}>
+          <CountUp to={Math.round(clamp(value, 0, 100))} duration={1.2} easing="expo" />
           <span className="text-lg text-smoke">%</span>
-        </motion.span>
+        </span>
         {label && <span className="text-[9px] uppercase tracking-[0.22em] text-smoke mt-1">{label}</span>}
       </div>
     </div>
