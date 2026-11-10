@@ -44,7 +44,9 @@
   "observability": {
     "enabled": true,
   },
-  "upload_source_maps": true,
+  // Off: since the NYX-KAIROS merge, the encoded source maps exceed Cloudflare's 60 MiB limit
+  // (deploy error 10021). Stack traces in Observability point to the bundled code instead.
+  "upload_source_maps": false,
   // Non-secret configuration. BETTER_AUTH_URL must be the public HTTPS URL.
   "vars": {
     "BETTER_AUTH_URL": "https://k-profile.yvernaux-web-solutions.com",
