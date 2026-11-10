@@ -182,7 +182,7 @@ export const DEFAULT_CONFIG: IntakeConfig = {
 
 export const KIND_META: Record<IntakeKind, { name: string; unit: string; color: string; icon: string; short: string }> = {
   water: { name: "Hydratation", unit: "ml", color: "#38bdf8", icon: "droplets", short: "Eau" },
-  caffeine: { name: "Caféine", unit: "mg", color: "#f59e0b", icon: "coffee", short: "Caféine" },
+  caffeine: { name: "Caféine", unit: "mg", color: "#d4af37", icon: "coffee", short: "Caféine" },
   alcohol: { name: "Alcool", unit: "u.", color: "#f87171", icon: "wine", short: "Alcool" },
 };
 

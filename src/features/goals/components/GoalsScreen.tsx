@@ -148,7 +148,7 @@ export default function GoalsPage() {
                                     }}
                                     className="flex items-center gap-2.5 w-full text-left group"
                                   >
-                                    <span className={`w-4.5 h-4.5 w-[18px] h-[18px] rounded border flex items-center justify-center shrink-0 transition-all ${s.done ? "bg-gradient-to-br from-ember to-[#d97706] border-ember" : "border-line2 group-hover:border-ember/60"}`}>
+                                    <span className={`w-4.5 h-4.5 w-[18px] h-[18px] rounded border flex items-center justify-center shrink-0 transition-all ${s.done ? "bg-gradient-to-br from-ember to-[#a8862a] border-ember" : "border-line2 group-hover:border-ember/60"}`}>
                                       <Check className={`w-2.5 h-2.5 ${s.done ? "text-black" : "text-transparent"}`} strokeWidth={3} />
                                     </span>
                                     <span className={`text-[11.5px] ${s.done ? "text-smoke line-through" : "text-dust"}`}>{s.title}</span>
@@ -210,7 +210,7 @@ export default function GoalsPage() {
                     </div>
                   </div>
                   <div className="mt-3 flex items-center gap-3">
-                    <ProgressBar value={completion} className="flex-1" color={p.status === "completed" ? "#10b981" : "#f59e0b"} />
+                    <ProgressBar value={completion} className="flex-1" color={p.status === "completed" ? "#10b981" : "#d4af37"} />
                     <span className="text-[11px] font-bold text-flame">{completion}%</span>
                   </div>
                   {open && (
@@ -229,7 +229,7 @@ export default function GoalsPage() {
                               <button onClick={() => patchProject(p.id, { milestones: milestones.map((x) => (x.id === m.id ? { ...x, done: !x.done } : x)) })}
                                 aria-pressed={m.done}
                                 aria-label={`Jalon « ${m.title} » atteint`}
-                                className={`w-[18px] h-[18px] rounded border flex items-center justify-center shrink-0 transition-all ${m.done ? "bg-gradient-to-br from-ember to-[#d97706] border-ember" : "border-line2 hover:border-ember/60"}`}>
+                                className={`w-[18px] h-[18px] rounded border flex items-center justify-center shrink-0 transition-all ${m.done ? "bg-gradient-to-br from-ember to-[#a8862a] border-ember" : "border-line2 hover:border-ember/60"}`}>
                                 <Check className={`w-2.5 h-2.5 ${m.done ? "text-black" : "text-transparent"}`} strokeWidth={3} />
                               </button>
                               <input

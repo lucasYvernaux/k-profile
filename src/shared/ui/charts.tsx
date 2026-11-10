@@ -33,16 +33,16 @@ export function PowerGauge({ value, size = 180, label }: { value: number; size?:
         <defs>
           <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#f87171" />
-            <stop offset="55%" stopColor="#f59e0b" />
-            <stop offset="100%" stopColor="#fbbf24" />
+            <stop offset="55%" stopColor="#d4af37" />
+            <stop offset="100%" stopColor="#e6c35c" />
           </linearGradient>
         </defs>
-        <path d={arc(start, start + sweep)} fill="none" stroke="#26262a" strokeWidth="9" strokeLinecap="round" />
+        <path d={arc(start, start + sweep)} fill="none" stroke="#262626" strokeWidth="9" strokeLinecap="round" />
         {ticks.map((a, i) => {
           const [x1, y1] = polar(a, r + 8);
           const [x2, y2] = polar(a, r + 11);
           const active = i / 27 <= pct;
-          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={active ? "#f59e0b" : "#2e2e33"} strokeWidth="1.4" />;
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={active ? "#d4af37" : "#333333"} strokeWidth="1.4" />;
         })}
         <motion.path
           d={arc(start, start + sweep)}
@@ -104,24 +104,24 @@ export function RadarChart({
   return (
     <svg viewBox="0 0 260 260" style={{ width: size, height: size, maxWidth: "100%" }}>
       {rings.map((pts, i) => (
-        <polygon key={i} points={pts} fill="none" stroke="#26262a" strokeWidth="1" />
+        <polygon key={i} points={pts} fill="none" stroke="#262626" strokeWidth="1" />
       ))}
       {PILLARS.map((_, i) => {
         const [x, y] = point(i, R);
-        return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="#26262a" strokeWidth="1" />;
+        return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="#262626" strokeWidth="1" />;
       })}
       {cmp && (
         <polygon points={poly(cmp)} fill="rgba(139,140,248,0.12)" stroke="#8b8cf8" strokeOpacity="0.6" strokeWidth="1.2" strokeDasharray="4 3" />
       )}
       <motion.polygon
         points={poly(main)}
-        fill="rgba(245,158,11,0.22)"
-        stroke="#f59e0b"
+        fill="rgba(212,175,55,0.22)"
+        stroke="#d4af37"
         strokeWidth="1.8"
         initial={{ opacity: 0, scale: 0.6 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        style={{ transformOrigin: "130px 130px", filter: "drop-shadow(0 0 8px rgba(245,158,11,0.35))" }}
+        style={{ transformOrigin: "130px 130px", filter: "drop-shadow(0 0 8px rgba(212,175,55,0.35))" }}
       />
       {PILLARS.map((p, i) => {
         const [x, y] = point(i, R + 22);
@@ -140,7 +140,7 @@ export function RadarChart({
                 }
               : {})}
           >
-            <circle cx={point(i, (clamp(main[i], 0, 100) / 100) * R)[0]} cy={point(i, (clamp(main[i], 0, 100) / 100) * R)[1]} r="3" fill="#fbbf24" />
+            <circle cx={point(i, (clamp(main[i], 0, 100) / 100) * R)[0]} cy={point(i, (clamp(main[i], 0, 100) / 100) * R)[1]} r="3" fill="#e6c35c" />
             <text x={x} y={y - 2} textAnchor="middle" fill="#a3a3a3" fontSize="8.5" fontWeight="600" style={{ textTransform: "uppercase", letterSpacing: "0.08em" }}>
               {p.short}
             </text>
@@ -194,7 +194,7 @@ export function MonthGrid({
                 selected === c.key ? "ring-2 ring-ember" : ""
               }`}
               style={{
-                background: scores.has(c.key) ? scoreColor(scores.get(c.key) ?? 0) : "#17171a",
+                background: scores.has(c.key) ? scoreColor(scores.get(c.key) ?? 0) : "#1a1a1a",
                 color: (scores.get(c.key) ?? 0) > 50 ? "#0a0a0a" : "#a0a0a0",
               }}
             >
@@ -232,28 +232,28 @@ export function ScoreLine({ points, height = 90 }: { points: { label: string; va
     <svg viewBox={`0 0 ${w} ${h}`} className="w-full" style={{ height }}>
       <defs>
         <linearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="rgba(245,158,11,0.3)" />
-          <stop offset="100%" stopColor="rgba(245,158,11,0)" />
+          <stop offset="0%" stopColor="rgba(212,175,55,0.3)" />
+          <stop offset="100%" stopColor="rgba(212,175,55,0)" />
         </linearGradient>
       </defs>
       {[25, 50, 75].map((v) => {
         const y = h - 6 - (v / 100) * (h - 14);
-        return <line key={v} x1={0} x2={w} y1={y} y2={y} stroke="#26262a" strokeWidth="1" strokeDasharray="3 4" />;
+        return <line key={v} x1={0} x2={w} y1={y} y2={y} stroke="#262626" strokeWidth="1" strokeDasharray="3 4" />;
       })}
       <motion.path d={area} fill="url(#lineFill)" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} />
       <motion.path
         d={path}
         fill="none"
-        stroke="#f59e0b"
+        stroke="#d4af37"
         strokeWidth="2"
         strokeLinecap="round"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
         transition={{ duration: 1.4, ease: "easeOut" }}
-        style={{ filter: "drop-shadow(0 0 5px rgba(245,158,11,0.5))" }}
+        style={{ filter: "drop-shadow(0 0 5px rgba(212,175,55,0.5))" }}
       />
       {usable.map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r="2.4" fill="#fbbf24" />
+        <circle key={i} cx={p.x} cy={p.y} r="2.4" fill="#e6c35c" />
       ))}
     </svg>
   );
@@ -269,13 +269,13 @@ export function Bars({ data, max }: { data: { label: string; value: number; colo
       {data.map((d) => (
         <div key={d.label} className="flex items-center gap-2">
           <span className="text-[10px] text-dust w-24 min-w-0 truncate">{d.label}</span>
-          <div className="flex-1 min-w-0 h-3.5 rounded bg-[#17171a] overflow-hidden">
+          <div className="flex-1 min-w-0 h-3.5 rounded bg-[#1a1a1a] overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${Math.min(100, (d.value / m) * 100)}%` }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="h-full rounded"
-              style={{ background: d.color ?? "#f59e0b", boxShadow: `0 0 8px ${d.color ?? "#f59e0b"}55` }}
+              style={{ background: d.color ?? "#d4af37", boxShadow: `0 0 8px ${d.color ?? "#d4af37"}55` }}
             />
           </div>
           {/* Grows with long values instead of overflowing onto the bar. */}

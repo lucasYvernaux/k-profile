@@ -35,7 +35,7 @@ export type Interaction = { id: number; personId: number; date: string; kind: st
 export const INNER_CIRCLE_MIN = 4;
 
 export const INTIMACY: Record<number, { label: string; color: string; every: number | null }> = {
-  5: { label: "Cercle intime", color: "#f59e0b", every: 7 },
+  5: { label: "Cercle intime", color: "#d4af37", every: 7 },
   4: { label: "Proche", color: "#a78bfa", every: 14 },
   3: { label: "Ami", color: "#38bdf8", every: 30 },
   2: { label: "Connaissance", color: "#10b981", every: 90 },
@@ -127,7 +127,7 @@ export function freshness(p: Person, today = todayKey()): Freshness {
   if (since === null) return { status: "late", color: "#f87171", ratio: 99, every, since };
   const ratio = since / every;
   if (ratio >= 1) return { status: "late", color: "#f87171", ratio, every, since };
-  if (ratio >= 0.75) return { status: "soon", color: "#f59e0b", ratio, every, since };
+  if (ratio >= 0.75) return { status: "soon", color: "#d4af37", ratio, every, since };
   return { status: "ok", color: "#10b981", ratio, every, since };
 }
 

@@ -225,7 +225,7 @@ export default function JournalPage() {
                   <div className="relative">
                     <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-smoke" />
                     <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Recherche full-text…"
-                      className="bg-[#0f0f10] border border-line rounded-lg pl-8 pr-3 py-1.5 text-[11px] text-ash focus:outline-none focus:border-ember/60 w-48" />
+                      className="bg-inset border border-border rounded-lg pl-8 pr-3 py-1.5 text-[11px] text-ash focus:outline-none focus:border-ember w-48" />
                   </div>
                   <Btn small variant="outline" onClick={() => exportMarkdown(filtered)}><Download className="w-3.5 h-3.5" /> Markdown</Btn>
                 </div>

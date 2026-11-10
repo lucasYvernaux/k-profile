@@ -27,7 +27,7 @@ function BacGauge({ bac, limit }: { bac: number; limit: number }) {
   const pct = Math.min(100, (bac / max) * 100);
   const limitPct = Math.min(100, (limit / max) * 100);
   const over = bac > limit;
-  const color = bac === 0 ? "#10b981" : over ? "#f87171" : bac > limit * 0.6 ? "#f59e0b" : "#10b981";
+  const color = bac === 0 ? "#10b981" : over ? "#f87171" : bac > limit * 0.6 ? "#d4af37" : "#10b981";
   return (
     <div>
       <div className="flex items-baseline justify-center gap-2 mb-3">
@@ -36,7 +36,7 @@ function BacGauge({ bac, limit }: { bac: number; limit: number }) {
         </span>
         <span className="text-base text-smoke">g/L</span>
       </div>
-      <div className="relative h-3 rounded-full bg-[#101013] border border-line overflow-hidden">
+      <div className="relative h-3 rounded-full bg-[#101010] border border-line overflow-hidden">
         <motion.div
           initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="h-full rounded-full" style={{ background: `linear-gradient(90deg, ${color}bb, ${color})`, boxShadow: `0 0 10px ${color}88` }}
@@ -350,7 +350,7 @@ export default function IntakePage() {
             </span>
             <span className="text-lg text-smoke"> / {cfg.caffeineLimit} mg</span>
           </div>
-          <ProgressBar value={caffPct} color={caffPct > 100 ? "#f87171" : "#f59e0b"} />
+          <ProgressBar value={caffPct} color={caffPct > 100 ? "#f87171" : "#d4af37"} />
           <div className="grid grid-cols-2 gap-2 mt-3">
             <div className="bg-raise/40 border border-line rounded-lg p-2.5 text-center">
               <p className="font-display text-base font-bold text-ash">{caffNow} mg</p>
@@ -401,7 +401,7 @@ export default function IntakePage() {
             <BacGauge bac={bacNow} limit={cfg.legalLimit} />
             <div className="mt-4 space-y-2">
               <div className={`rounded-xl border px-3.5 py-3 ${bacNow > cfg.legalLimit ? "border-blood/40 bg-blood/[0.07]" : bacNow > 0 ? "border-ember/35 bg-ember/[0.05]" : "border-jade/35 bg-jade/[0.05]"}`}>
-                <p className="text-[12px] font-semibold" style={{ color: bacNow > cfg.legalLimit ? "#f87171" : bacNow > 0 ? "#f59e0b" : "#10b981" }}>
+                <p className="text-[12px] font-semibold" style={{ color: bacNow > cfg.legalLimit ? "#f87171" : bacNow > 0 ? "#d4af37" : "#10b981" }}>
                   {bacNow > cfg.legalLimit ? "CONDUITE INTERDITE" : bacNow > 0 ? "Alcool présent dans le sang" : "Sobre"}
                 </p>
                 {bacNow > 0 && (
@@ -545,7 +545,7 @@ export default function IntakePage() {
               <Bars data={days.slice(-7).map((d) => ({
                 label: weekdayName(d) + " " + d.slice(8),
                 value: Math.round(range.filter((l) => l.kind === "caffeine" && l.date === d).reduce((s, l) => s + l.amount, 0)),
-                color: "#f59e0b",
+                color: "#d4af37",
               }))} max={Math.max(cfg.caffeineLimit, 1)} />
             </div>
             <div>

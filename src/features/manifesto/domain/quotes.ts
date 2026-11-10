@@ -14,12 +14,12 @@ export type QuoteSeed = {
 };
 
 export const QUOTE_CATEGORIES: Record<string, { label: string; color: string; icon: string }> = {
-  manifeste: { label: "Manifeste Prométhéen", color: "#f59e0b", icon: "flame" },
+  manifeste: { label: "Manifeste Prométhéen", color: "#d4af37", icon: "flame" },
   "cote-titres": { label: "COTE — Titres d'épisodes", color: "#8b8cf8", icon: "tv" },
   cote: { label: "Classroom of the Elite", color: "#a78bfa", icon: "graduation-cap" },
   solo: { label: "Solo Leveling", color: "#38bdf8", icon: "swords" },
   arifureta: { label: "Arifureta", color: "#10b981", icon: "hammer" },
-  stoique: { label: "Stoïcisme & Philosophie", color: "#d97706", icon: "columns-3" },
+  stoique: { label: "Stoïcisme & Philosophie", color: "#a8862a", icon: "columns-3" },
   strategie: { label: "Stratégie & Discipline", color: "#f87171", icon: "target" },
   perso: { label: "Personnelles", color: "#e5e5e5", icon: "pen-line" },
 };

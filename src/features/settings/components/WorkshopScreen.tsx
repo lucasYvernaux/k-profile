@@ -200,7 +200,7 @@ export default function ConfigPage() {
           <div className="relative">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-smoke" />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Filtrer…"
-              className="bg-[#0f0f10] border border-line rounded-lg pl-8 pr-3 py-1.5 text-[11px] text-ash focus:outline-none focus:border-ember/60 w-36" />
+              className="bg-inset border border-border rounded-lg pl-8 pr-3 py-1.5 text-[11px] text-ash focus:outline-none focus:border-ember w-36" />
           </div>
           <div className="flex bg-raise/60 border border-line rounded-lg p-0.5">
             {([["phases", "Phases"], ["timers", "Entretien"], ["quotes", "Citations"]] as [Tab, string][]).map(([t, l]) => (
@@ -358,7 +358,7 @@ export default function ConfigPage() {
               return (
                 <button key={k} onClick={() => setQCat(k)}
                   className={`text-[11px] px-3 py-1.5 rounded-lg border transition-all ${qCat === k ? "font-semibold" : "text-smoke hover:text-dust"}`}
-                  style={qCat === k ? { borderColor: meta.color, background: `${meta.color}22`, color: meta.color } : { borderColor: "#26262a" }}>
+                  style={qCat === k ? { borderColor: meta.color, background: `${meta.color}22`, color: meta.color } : { borderColor: "#262626" }}>
                   {meta.label} ({n})
                 </button>
               );
@@ -448,7 +448,7 @@ export default function ConfigPage() {
                 {Object.entries(QUOTE_CATEGORIES).map(([k, meta]) => (
                   <button key={k} type="button" onClick={() => setEditQuote({ ...editQuote, category: k })}
                     className={`text-[11px] px-2.5 py-1.5 rounded-lg border transition-all ${editQuote.category === k ? "font-semibold" : "text-smoke hover:text-dust"}`}
-                    style={editQuote.category === k ? { borderColor: meta.color, background: `${meta.color}22`, color: meta.color } : { borderColor: "#26262a" }}>
+                    style={editQuote.category === k ? { borderColor: meta.color, background: `${meta.color}22`, color: meta.color } : { borderColor: "#262626" }}>
                     {meta.label}
                   </button>
                 ))}

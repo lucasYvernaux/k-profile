@@ -205,6 +205,10 @@ describe("interests", () => {
     expect(interestColor({ key: "mangas", color: null })).toBe(interestColor({ key: "mangas", color: null }));
     expect(interestColor({ key: "mangas", color: "#123456" })).toBe("#123456");
   });
+
+  it("shows the former amber in the gold of the palette", () => {
+    expect(interestColor({ key: "mangas", color: "#F59E0B" })).toBe("#d4af37");
+  });
 });
 
 describe("network schemas", () => {

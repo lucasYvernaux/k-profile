@@ -1,8 +1,8 @@
-/* Colour scale for 0-100 scores (gold → ember → blood → ash). */
+/* Colour scale for 0-100 scores (bright gold → gold → orange → blood → ash). */
 
 export function scoreColor(pct: number): string {
-  if (pct >= 90) return "#fbbf24"; // or brillant
-  if (pct >= 75) return "#f59e0b"; // ambre
+  if (pct >= 90) return "#e6c35c"; // or brillant
+  if (pct >= 75) return "#d4af37"; // or
   if (pct >= 50) return "#ea580c"; // orange
   if (pct >= 25) return "#991b1b"; // rouge sombre
   if (pct > 0) return "#7f1d1d";
@@ -14,8 +14,8 @@ export function scoreColor(pct: number): string {
  * WCAG 1.4.3). The dark reds of scoreColor() are for fills only (1.9:1 as text).
  */
 export function scoreTextColor(pct: number): string {
-  if (pct >= 90) return "#fbbf24";
-  if (pct >= 75) return "#f59e0b";
+  if (pct >= 90) return "#e6c35c";
+  if (pct >= 75) return "#d4af37";
   if (pct >= 50) return "#fb923c";
   if (pct > 0) return "#f87171";
   return "#a0a0a0";

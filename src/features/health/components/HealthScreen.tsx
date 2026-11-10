@@ -86,13 +86,13 @@ function ValueLine({
       <svg viewBox={`0 0 ${w} ${h}`} className="w-full" style={{ height }} onMouseMove={onMove} onMouseLeave={() => setHover(null)}>
         <defs>
           <linearGradient id="valFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="rgba(245,158,11,0.28)" />
-            <stop offset="100%" stopColor="rgba(245,158,11,0)" />
+            <stop offset="0%" stopColor="rgba(212,175,55,0.28)" />
+            <stop offset="100%" stopColor="rgba(212,175,55,0)" />
           </linearGradient>
         </defs>
         {gridVals.map((v, i) => (
           <g key={i}>
-            <line x1={padL} x2={w - padR} y1={y(v)} y2={y(v)} stroke="#26262a" strokeWidth="1" strokeDasharray="3 4" />
+            <line x1={padL} x2={w - padR} y1={y(v)} y2={y(v)} stroke="#262626" strokeWidth="1" strokeDasharray="3 4" />
             <text x={padL - 6} y={y(v) + 3} textAnchor="end" fill="#a0a0a0" fontSize="9">
               {fmt(v, 1)}
             </text>
@@ -111,19 +111,19 @@ function ValueLine({
           key={path}
           d={path}
           fill="none"
-          stroke="#f59e0b"
+          stroke="#d4af37"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          style={{ filter: "drop-shadow(0 0 5px rgba(245,158,11,0.5))" }}
+          style={{ filter: "drop-shadow(0 0 5px rgba(212,175,55,0.5))" }}
         />
         {pts.map((p, i) => (
-          <circle key={i} cx={p.x} cy={p.y} r={hover === i ? 4.5 : 2.6} fill="#fbbf24" />
+          <circle key={i} cx={p.x} cy={p.y} r={hover === i ? 4.5 : 2.6} fill="#e6c35c" />
         ))}
-        {hp && <line x1={hp.x} x2={hp.x} y1={padT} y2={h - padB} stroke="#f59e0b" strokeOpacity="0.35" />}
+        {hp && <line x1={hp.x} x2={hp.x} y1={padT} y2={h - padB} stroke="#d4af37" strokeOpacity="0.35" />}
         <text x={padL} y={h - 6} fill="#a0a0a0" fontSize="9">
           {formatKeyFr(points[0].date)}
         </text>
@@ -168,8 +168,8 @@ function WeekColumns({ data, goal }: { data: { label: string; minutes: number; c
               transition={{ duration: 0.8, delay: i * 0.03, ease: [0.16, 1, 0.3, 1] }}
               className="w-full rounded-t-md min-h-[2px]"
               style={{
-                background: hit ? "linear-gradient(180deg,#fbbf24,#f59e0b)" : d.minutes ? "#7c4a0b" : "#1d1d20",
-                boxShadow: hit ? "0 0 10px rgba(245,158,11,0.35)" : undefined,
+                background: hit ? "linear-gradient(180deg,#e6c35c,#d4af37)" : d.minutes ? "#5e4b14" : "#1d1d1d",
+                boxShadow: hit ? "0 0 10px rgba(212,175,55,0.35)" : undefined,
               }}
               title={`${d.count} séance(s) · ${d.minutes} min`}
             />
@@ -589,7 +589,7 @@ export default function SantePage() {
             {thisWeek.length}
             <span className="text-sm text-smoke ml-1">/ {cfg.weeklyGoal}</span>
           </div>
-          <ProgressBar value={weekPct} className="mt-2" color={weekPct >= 100 ? "#10b981" : "#f59e0b"} />
+          <ProgressBar value={weekPct} className="mt-2" color={weekPct >= 100 ? "#10b981" : "#d4af37"} />
           <div className="mt-1.5 text-[10px] text-smoke">
             {thisWeekMin} min · série <span className="text-ember font-semibold">{streak} sem.</span>
           </div>
@@ -773,7 +773,7 @@ export default function SantePage() {
                   layout
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="group rounded-xl border border-line bg-[#131315] p-3.5 hover:border-line2 transition-colors"
+                  className="group rounded-xl border border-line bg-[#131313] p-3.5 hover:border-line2 transition-colors"
                 >
                   <div className="flex items-start gap-3">
                     <div
@@ -811,7 +811,7 @@ export default function SantePage() {
                         ) : null}
                         {s.calories ? <span>{s.calories} kcal</span> : null}
                         {s.intensity ? (
-                          <span style={{ color: s.intensity >= 8 ? "#f87171" : s.intensity >= 6 ? "#f59e0b" : "#10b981" }}>
+                          <span style={{ color: s.intensity >= 8 ? "#f87171" : s.intensity >= 6 ? "#d4af37" : "#10b981" }}>
                             RPE {s.intensity}/10
                           </span>
                         ) : null}

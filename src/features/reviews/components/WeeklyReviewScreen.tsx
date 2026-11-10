@@ -123,7 +123,7 @@ export default function WeeklyPage() {
                 <div
                   key={d}
                   className={`rounded-xl border border-line px-0.5 py-2 sm:p-2.5 text-center min-w-0 transition-all ${future ? "opacity-40" : ""}`}
-                  style={{ background: has ? `${scoreColor(score)}22` : "#141416", borderColor: has ? `${scoreColor(score)}44` : undefined }}
+                  style={{ background: has ? `${scoreColor(score)}22` : "#141414", borderColor: has ? `${scoreColor(score)}44` : undefined }}
                 >
                   <p className="text-[9px] uppercase tracking-wider text-smoke">{weekdayName(d)}</p>
                   <p className="text-[10px] text-smoke">{d.slice(8)}</p>

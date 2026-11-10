@@ -68,7 +68,7 @@ export type MeasureKey = (typeof MEASURES)[number]["key"];
 export const NUMERIC_FIELDS = ["weightKg", "heightCm", "bodyFatPct", ...MEASURES.map((m) => m.key)] as const;
 
 export const WORKOUT_TYPES: Record<string, { label: string; icon: string; color: string; cardio?: boolean; exercises?: boolean; bodyweight?: boolean }> = {
-  muscu: { label: "Musculation", icon: "dumbbell", color: "#f59e0b", exercises: true },
+  muscu: { label: "Musculation", icon: "dumbbell", color: "#d4af37", exercises: true },
   poids_corps: { label: "Poids du corps", icon: "person-standing", color: "#14b8a6", exercises: true, bodyweight: true },
   course: { label: "Course", icon: "footprints", color: "#10b981", cardio: true },
   velo: { label: "Vélo", icon: "bike", color: "#38bdf8", cardio: true },
@@ -94,7 +94,7 @@ export function bmi(weightKg: number | null | undefined, heightCm: number | null
 export function bmiCategory(v: number): { label: string; color: string } {
   if (v < 18.5) return { label: "Maigreur", color: "#38bdf8" };
   if (v < 25) return { label: "Corpulence normale", color: "#10b981" };
-  if (v < 30) return { label: "Surpoids", color: "#f59e0b" };
+  if (v < 30) return { label: "Surpoids", color: "#d4af37" };
   return { label: "Obésité", color: "#f87171" };
 }
 

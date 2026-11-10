@@ -50,7 +50,7 @@ export function Btn({
   small?: boolean;
 }) {
   const styles: Record<BtnVariant, string> = {
-    primary: "bg-gradient-to-r from-ember to-[#d97706] text-black font-semibold hover:brightness-110",
+    primary: "bg-gradient-to-r from-ember to-[#a8862a] text-black font-semibold hover:brightness-110",
     ghost: "bg-raise/60 text-dust border border-line2 hover:border-ember/50 hover:text-ash",
     outline: "border border-ember/40 text-ember hover:bg-ember/10",
     danger: "bg-blood/10 text-blood border border-blood/30 hover:bg-blood/20",
@@ -84,7 +84,7 @@ export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className={`w-full bg-[#0f0f10] border border-line rounded-lg px-3 py-2 text-base sm:text-sm text-ash placeholder:text-smoke focus:outline-none focus:border-ember/60 transition-colors ${props.className ?? ""}`}
+      className={`w-full bg-inset border border-border rounded-lg px-3 py-2 text-base sm:text-sm text-ash placeholder:text-smoke focus:outline-none focus:border-ember transition-colors ${props.className ?? ""}`}
     />
   );
 }
@@ -93,7 +93,7 @@ export function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement
   return (
     <textarea
       {...props}
-      className={`w-full bg-[#0f0f10] border border-line rounded-lg px-3 py-2 text-base sm:text-sm text-ash placeholder:text-smoke focus:outline-none focus:border-ember/60 transition-colors resize-y min-h-[70px] ${props.className ?? ""}`}
+      className={`w-full bg-inset border border-border rounded-lg px-3 py-2 text-base sm:text-sm text-ash placeholder:text-smoke focus:outline-none focus:border-ember transition-colors resize-y min-h-[70px] ${props.className ?? ""}`}
     />
   );
 }
@@ -102,7 +102,7 @@ export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
       {...props}
-      className={`w-full bg-[#0f0f10] border border-line rounded-lg px-3 py-2 text-base sm:text-sm text-ash focus:outline-none focus:border-ember/60 transition-colors ${props.className ?? ""}`}
+      className={`w-full bg-inset border border-border rounded-lg px-3 py-2 text-base sm:text-sm text-ash focus:outline-none focus:border-ember transition-colors ${props.className ?? ""}`}
     />
   );
 }
@@ -194,7 +194,7 @@ export function Slider({
   );
 }
 
-export function ProgressBar({ value, className = "", color = "#f59e0b" }: { value: number; className?: string; color?: string }) {
+export function ProgressBar({ value, className = "", color = "#d4af37" }: { value: number; className?: string; color?: string }) {
   return (
     <div className={`h-1.5 rounded-full bg-line overflow-hidden ${className}`}>
       <motion.div

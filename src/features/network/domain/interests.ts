@@ -4,7 +4,7 @@ export type Interest = { id: number; name: string; key: string; color: string | 
 export type PersonInterest = { id: number; personId: number; interestId: number };
 
 export const INTEREST_COLORS = [
-  "#f59e0b", "#f87171", "#ec4899", "#a78bfa", "#6366f1", "#38bdf8",
+  "#d4af37", "#f87171", "#ec4899", "#a78bfa", "#6366f1", "#38bdf8",
   "#14b8a6", "#10b981", "#84cc16", "#eab308", "#f97316", "#94a3b8",
 ] as const;
 
@@ -32,8 +32,11 @@ export function interestName(name: string): string {
   return clean.charAt(0).toUpperCase() + clean.slice(1);
 }
 
+/** Former amber of NYX-KAIROS, saved before the gold palette (ADR 0013). */
+const LEGACY_COLORS: Readonly<Record<string, string>> = { "#f59e0b": "#d4af37" };
+
 export function interestColor(interest: Pick<Interest, "key" | "color">): string {
-  if (interest.color) return interest.color;
+  if (interest.color) return LEGACY_COLORS[interest.color.toLowerCase()] ?? interest.color;
   let hash = 0;
   for (const char of interest.key) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
   return INTEREST_COLORS[hash % INTEREST_COLORS.length];

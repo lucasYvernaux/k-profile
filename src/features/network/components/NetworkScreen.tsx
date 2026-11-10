@@ -412,7 +412,7 @@ export default function ReseauPage() {
               color: p.lastContact ? "#e5e5e5" : "#a0a0a0",
             },
           ].map((s) => (
-            <div key={s.label} className="rounded-lg bg-[#121214] border border-line px-2 py-1.5 min-w-0">
+            <div key={s.label} className="rounded-lg bg-[#121212] border border-line px-2 py-1.5 min-w-0">
               <div className="text-[8.5px] uppercase tracking-[0.12em] text-smoke truncate">{s.label}</div>
               <div className="text-[11px] font-semibold truncate" style={{ color: s.color }}>{s.value}</div>
             </div>
@@ -541,7 +541,7 @@ export default function ReseauPage() {
               </div>
             ))}
             {overdue.slice(0, 12).map(({ p, f }) => (
-              <div key={p.id} className="shrink-0 flex items-center gap-2.5 rounded-xl border border-line bg-[#131315] pl-3 pr-2 py-2">
+              <div key={p.id} className="shrink-0 flex items-center gap-2.5 rounded-xl border border-line bg-[#131313] pl-3 pr-2 py-2">
                 <button onClick={() => openDetail(p.id)} className="flex items-center gap-2.5 text-left">
                   <Avatar p={p} size={32} />
                   <div>
@@ -620,7 +620,7 @@ export default function ReseauPage() {
                   key={l}
                   onClick={() => setLevel(level === l ? null : l)}
                   className="text-[10px] px-2.5 py-1 rounded-full border transition-colors"
-                  style={level === l ? { borderColor: `${INTIMACY[l].color}90`, color: INTIMACY[l].color, background: `${INTIMACY[l].color}14` } : { borderColor: "#26262a", color: "#a3a3a3" }}
+                  style={level === l ? { borderColor: `${INTIMACY[l].color}90`, color: INTIMACY[l].color, background: `${INTIMACY[l].color}14` } : { borderColor: "#262626", color: "#a3a3a3" }}
                 >
                   {INTIMACY[l].label} · {n}
                 </button>
@@ -630,7 +630,7 @@ export default function ReseauPage() {
               <button
                 onClick={() => setColdOnly(!coldOnly)}
                 className="text-[10px] px-2.5 py-1 rounded-full border transition-colors"
-                style={coldOnly ? { borderColor: COLD_COLOR, color: COLD_COLOR, background: `${COLD_COLOR}14` } : { borderColor: "#26262a", color: "#a3a3a3" }}
+                style={coldOnly ? { borderColor: COLD_COLOR, color: COLD_COLOR, background: `${COLD_COLOR}14` } : { borderColor: "#262626", color: "#a3a3a3" }}
               >
                 ❄ En froid · {cold.length}
               </button>
@@ -777,7 +777,7 @@ export default function ReseauPage() {
                 { label: "Naissance", date: detail.birthday },
                 ...(detail.deceased ? [{ label: "Décès", date: detail.diedOn }] : []),
               ].map((s) => (
-                <div key={s.label} className="rounded-lg bg-[#121214] border border-line px-3 py-2">
+                <div key={s.label} className="rounded-lg bg-[#121212] border border-line px-3 py-2">
                   <div className="text-[9px] uppercase tracking-[0.12em] text-smoke">{s.label}</div>
                   <div className="text-[12px] font-semibold text-ash capitalize">{s.date ? formatKeyFr(s.date) : "—"}</div>
                   {s.date && s.label !== "Naissance" && <div className="text-[10px] text-smoke">{agoFr(daysSince(s.date, today))}</div>}
@@ -834,7 +834,7 @@ export default function ReseauPage() {
               </div>
             )}
 
-            {detail.notes && <p className="text-[12px] text-dust whitespace-pre-wrap rounded-lg bg-[#121214] border border-line p-3">{detail.notes}</p>}
+            {detail.notes && <p className="text-[12px] text-dust whitespace-pre-wrap rounded-lg bg-[#121212] border border-line p-3">{detail.notes}</p>}
 
             {!detail.isSelf && !detail.deceased && (
               <>
@@ -960,7 +960,7 @@ export default function ReseauPage() {
                       key={l}
                       onClick={() => setDraft({ ...draft, intimacy: l })}
                       className="rounded-lg border px-1 py-2 transition-colors"
-                      style={on ? { borderColor: m.color, background: `${m.color}18` } : { borderColor: "#26262a" }}
+                      style={on ? { borderColor: m.color, background: `${m.color}18` } : { borderColor: "#262626" }}
                     >
                       <div className="flex justify-center gap-0.5 mb-1">
                         {Array.from({ length: l }, (_, i) => <span key={i} className="w-1.5 h-1.5 rounded-full" style={{ background: on ? m.color : "#525252" }} />)}
@@ -1061,7 +1061,7 @@ export default function ReseauPage() {
                     key={k}
                     onClick={() => setNewChannel({ ...newChannel, kind: k })}
                     className="flex items-center gap-1 text-[10px] px-2 py-1 rounded-full border transition-colors"
-                    style={newChannel.kind === k ? { borderColor: m.color, background: `${m.color}20`, color: "#e5e5e5" } : { borderColor: "#26262a", color: "#a3a3a3" }}
+                    style={newChannel.kind === k ? { borderColor: m.color, background: `${m.color}20`, color: "#e5e5e5" } : { borderColor: "#262626", color: "#a3a3a3" }}
                   >
                     <DynIcon name={m.icon} className="w-3 h-3" style={{ color: m.color }} /> {m.label}
                   </button>
@@ -1163,8 +1163,8 @@ export default function ReseauPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 16 }}
-            className="fixed bottom-[calc(env(safe-area-inset-bottom)+5rem)] lg:bottom-6 left-1/2 -translate-x-1/2 z-[70] max-w-[calc(100vw-2rem)] rounded-xl border border-ember/40 bg-[#141416]/95 backdrop-blur px-4 py-2.5 text-[12px] text-ash shadow-lg"
-            style={{ boxShadow: "0 0 24px rgba(245,158,11,0.2)" }}
+            className="fixed bottom-[calc(env(safe-area-inset-bottom)+5rem)] lg:bottom-6 left-1/2 -translate-x-1/2 z-[70] max-w-[calc(100vw-2rem)] rounded-xl border border-ember/40 bg-[#141414]/95 backdrop-blur px-4 py-2.5 text-[12px] text-ash shadow-lg"
+            style={{ boxShadow: "0 0 24px rgba(212,175,55,0.2)" }}
           >
             {toast}
           </motion.div>

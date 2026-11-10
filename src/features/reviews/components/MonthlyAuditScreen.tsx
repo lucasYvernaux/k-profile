@@ -102,7 +102,7 @@ export default function MonthlyPage() {
       {/* ========== NIVEAU & PROGRESSION ========== */}
       {player && (
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="mb-4">
-          <Card hairline className="bg-gradient-to-r from-[#181207] via-[#131315] to-[#131315]">
+          <Card hairline className="bg-gradient-to-r from-[#181207] via-[#131313] to-[#131313]">
             <div className="flex flex-wrap items-center gap-6">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-ember/25 to-blood/10 border border-ember/40 flex items-center justify-center glow-ember">

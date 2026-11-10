@@ -44,8 +44,8 @@ export type LinkKind = {
   inTree?: boolean;
 };
 
-const FAMILY = "#f59e0b";
-const STEP = "#d97706";
+const FAMILY = "#d4af37";
+const STEP = "#a8862a";
 const COUPLE = "#f87171";
 
 export const LINK_KINDS: Record<string, LinkKind> = {

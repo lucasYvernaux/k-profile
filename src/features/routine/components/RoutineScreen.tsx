@@ -110,11 +110,11 @@ function Pomodoro({ open, onClose, phaseTitle }: { open: boolean; onClose: () =>
         <p className="text-[11px] text-smoke mb-4 text-center">{phaseTitle}</p>
         <div className="relative w-40 h-40">
           <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
-            <circle cx="50" cy="50" r="44" fill="none" stroke="#26262a" strokeWidth="6" />
+            <circle cx="50" cy="50" r="44" fill="none" stroke="#262626" strokeWidth="6" />
             <circle
-              cx="50" cy="50" r="44" fill="none" stroke="#f59e0b" strokeWidth="6" strokeLinecap="round"
+              cx="50" cy="50" r="44" fill="none" stroke="#d4af37" strokeWidth="6" strokeLinecap="round"
               strokeDasharray={`${(pct / 100) * 276.4} 276.4`}
-              style={{ filter: "drop-shadow(0 0 6px rgba(245,158,11,0.5))", transition: "stroke-dasharray 0.5s" }}
+              style={{ filter: "drop-shadow(0 0 6px rgba(212,175,55,0.5))", transition: "stroke-dasharray 0.5s" }}
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -373,7 +373,7 @@ export default function RoutineScreen() {
 
         {/* ========== CITATION ========== */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.16 }} className={gamification ? "lg:col-span-4" : "lg:col-span-7"}>
-          <Card className="h-full flex flex-col bg-gradient-to-br from-[#16130c] to-[#131315]" hairline>
+          <Card className="h-full flex flex-col bg-gradient-to-br from-[#16130c] to-[#131313]" hairline>
             <SectionTitle icon="quote" title="Citation du jour" right={
               <button onClick={() => setQuoteIdx((i) => (i + 1 + Math.floor(Math.random() * (pool.length - 1))) % pool.length)} aria-label="Autre citation" className="p-1.5 rounded-lg text-smoke hover:text-ember transition-colors">
                 <RefreshCw className="w-3.5 h-3.5" />

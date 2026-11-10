@@ -87,7 +87,7 @@ export function InterestsBoard({ people, interests, personInterests, onOpen, onU
             ) : (
               <div className="flex flex-wrap gap-2">
                 {shared.map((p) => (
-                  <button key={p.id} onClick={() => onOpen(p.id)} className="flex items-center gap-2 rounded-xl border border-line bg-[#131315] pl-1.5 pr-3 py-1.5 hover:border-line2">
+                  <button key={p.id} onClick={() => onOpen(p.id)} className="flex items-center gap-2 rounded-xl border border-line bg-[#131313] pl-1.5 pr-3 py-1.5 hover:border-line2">
                     <Avatar p={p} size={28} />
                     <span className="text-[12px] text-ash">{p.isSelf ? "Moi" : shortName(p)}</span>
                   </button>
@@ -121,7 +121,7 @@ export function InterestsBoard({ people, interests, personInterests, onOpen, onU
               </div>
 
               {isEditing && editing && (
-                <div className="rounded-lg border border-line bg-[#121214] p-2.5 mb-3 space-y-2">
+                <div className="rounded-lg border border-line bg-[#121212] p-2.5 mb-3 space-y-2">
                   <div className="flex gap-1.5">
                     <Input aria-label={`Nouveau nom du domaine « ${interest.name} »`} value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })} className="!py-1" maxLength={40} />
                     <Btn
@@ -161,7 +161,7 @@ export function InterestsBoard({ people, interests, personInterests, onOpen, onU
 
               <div className="flex flex-wrap gap-1.5">
                 {list.map((p) => (
-                  <button key={p.id} onClick={() => onOpen(p.id)} className="flex items-center gap-1.5 rounded-full border border-line bg-[#131315] pl-0.5 pr-2.5 py-0.5 hover:border-line2">
+                  <button key={p.id} onClick={() => onOpen(p.id)} className="flex items-center gap-1.5 rounded-full border border-line bg-[#131313] pl-0.5 pr-2.5 py-0.5 hover:border-line2">
                     <Avatar p={p} size={22} decorative />
                     <span className="text-[11px] text-ash">{p.isSelf ? "Moi" : shortName(p)}</span>
                     {!p.isSelf && displayName(p) !== shortName(p) && <span className="sr-only">, {displayName(p)}</span>}

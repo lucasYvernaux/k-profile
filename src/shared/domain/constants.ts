@@ -81,7 +81,7 @@ export type Pillar = {
 const PILLAR_STYLE: Record<PillarId, Pick<Pillar, "short" | "icon" | "color">> = {
   mental: { short: "Mental", icon: "eye", color: "#8b8cf8" },
   body: { short: "Corps", icon: "dumbbell", color: "#f87171" },
-  maker: { short: "Maker", icon: "hammer", color: "#f59e0b" },
+  maker: { short: "Maker", icon: "hammer", color: "#d4af37" },
   strategy: { short: "Stratégie", icon: "coins", color: "#10b981" },
   family: { short: "Famille", icon: "users", color: "#a78bfa" },
   presence: { short: "Présence", icon: "sparkles", color: "#38bdf8" },

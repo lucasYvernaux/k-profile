@@ -95,8 +95,10 @@ export function AppNav() {
                     <Link
                       href={href}
                       aria-current={current ? "page" : undefined}
-                      className={`flex min-h-11 items-center rounded-lg px-3 font-semibold ${
-                        current ? "bg-accent text-accent-contrast" : "hover:bg-accent-soft"
+                      className={`flex min-h-11 items-center rounded-lg border-l-2 px-3 font-semibold transition-colors ${
+                        current
+                          ? "border-accent bg-selection text-white"
+                          : "border-transparent hover:border-accent hover:bg-accent-soft hover:text-accent"
                       }`}
                     >
                       {label}

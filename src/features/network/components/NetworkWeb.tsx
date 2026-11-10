@@ -183,7 +183,7 @@ export function NetworkWeb({
         </div>
       </div>
 
-      <div className="rounded-xl border border-line bg-[#0c0c0e] overflow-hidden touch-none">
+      <div className="rounded-xl border border-line bg-[#0c0c0c] overflow-hidden touch-none">
         <svg
           ref={svgRef}
           viewBox={`0 0 ${SIZE} ${SIZE}`}
@@ -195,8 +195,8 @@ export function NetworkWeb({
         >
           <defs>
             <radialGradient id="core" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="rgba(245,158,11,0.16)" />
-              <stop offset="100%" stopColor="rgba(245,158,11,0)" />
+              <stop offset="0%" stopColor="rgba(212,175,55,0.16)" />
+              <stop offset="100%" stopColor="rgba(212,175,55,0)" />
             </radialGradient>
           </defs>
           <g transform={`translate(${view.x} ${view.y}) scale(${view.k})`}>
@@ -213,7 +213,7 @@ export function NetworkWeb({
 
             {/* Liens « moi » → cercle intime, très discrets */}
             {[...nodes.values()].filter((n) => n.p.intimacy >= 5).map((n) => (
-              <line key={`me-${n.p.id}`} x1={C} y1={C} x2={n.x} y2={n.y} stroke="#f59e0b" strokeOpacity={focus === null || neighbors.has(n.p.id) ? 0.12 : 0.04} />
+              <line key={`me-${n.p.id}`} x1={C} y1={C} x2={n.x} y2={n.y} stroke="#d4af37" strokeOpacity={focus === null || neighbors.has(n.p.id) ? 0.12 : 0.04} />
             ))}
 
             {/* Liens entre personnes : courbes tirées vers le centre */}
@@ -254,14 +254,14 @@ export function NetworkWeb({
               cx={C}
               cy={C}
               r={30}
-              fill="#141416"
-              stroke="#f59e0b"
+              fill="#141414"
+              stroke="#d4af37"
               strokeWidth={selfId !== null && selectedId === selfId ? 3 : 2}
-              style={{ filter: "drop-shadow(0 0 10px rgba(245,158,11,0.5))", cursor: selfId !== null ? "pointer" : undefined }}
+              style={{ filter: "drop-shadow(0 0 10px rgba(212,175,55,0.5))", cursor: selfId !== null ? "pointer" : undefined }}
               onPointerDown={(e) => e.stopPropagation()}
               onPointerUp={(e) => { if (selfId === null) return; e.stopPropagation(); onSelect(selectedId === selfId ? null : selfId); }}
             />
-            <text x={C} y={C + 4} textAnchor="middle" fill="#fbbf24" fontSize="12" fontWeight="700" letterSpacing="1.5">MOI</text>
+            <text x={C} y={C + 4} textAnchor="middle" fill="#e6c35c" fontSize="12" fontWeight="700" letterSpacing="1.5">MOI</text>
 
             {/* Personnes */}
             {[...nodes.values()].map((n, i) => {
@@ -300,14 +300,14 @@ export function NetworkWeb({
                   {/* SVG <title>: accessible name and hover tooltip. Starts with the visible name (WCAG 2.5.3). */}
                   <title>{`${shortName(n.p)}, ${meta.label}${n.p.coldSince ? ", en froid" : ""}${freshnessLabel}`}</title>
                   {sel && <circle cx={n.x} cy={n.y} r={r + 7} fill="none" stroke={meta.color} strokeWidth="1.5" strokeDasharray="3 3" />}
-                  <circle cx={n.x} cy={n.y} r={r} fill="#17171a" stroke={stroke} strokeWidth={sel ? 3 : 2} strokeDasharray={isCold ? "4 3" : undefined} />
+                  <circle cx={n.x} cy={n.y} r={r} fill="#1a1a1a" stroke={stroke} strokeWidth={sel ? 3 : 2} strokeDasharray={isCold ? "4 3" : undefined} />
                   <text x={n.x} y={n.y + 4} textAnchor="middle" fill="#e5e5e5" fontSize={r * 0.55} fontWeight="700" aria-hidden="true">
                     {initials(n.p)}
                   </text>
-                  {highlight?.has(n.p.id) && <circle cx={n.x} cy={n.y} r={r + 5} fill="none" stroke="#fbbf24" strokeOpacity="0.6" strokeWidth="1.5" />}
+                  {highlight?.has(n.p.id) && <circle cx={n.x} cy={n.y} r={r + 5} fill="none" stroke="#e6c35c" strokeOpacity="0.6" strokeWidth="1.5" />}
                   {isCold && <text x={n.x + r * 0.72} y={n.y - r * 0.55} textAnchor="middle" fill={COLD_COLOR} fontSize="11" aria-hidden="true">❄</text>}
                   {fr.status !== "none" && fr.status !== "cold" && (
-                    <circle cx={n.x + r * 0.72} cy={n.y - r * 0.72} r={4.5} fill={fr.color} stroke="#0c0c0e" strokeWidth="2" />
+                    <circle cx={n.x + r * 0.72} cy={n.y - r * 0.72} r={4.5} fill={fr.color} stroke="#0c0c0c" strokeWidth="2" />
                   )}
                   <text x={n.x} y={n.y + r + 15} textAnchor="middle" fill="#a3a3a3" fontSize="12" fontWeight="600">
                     {shortName(n.p)}

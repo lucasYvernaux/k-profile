@@ -22,9 +22,8 @@ function ScreenSkeleton() {
 /**
  * Frame of the screens merged from NYX-KAIROS (ADR 0010).
  *
- * - `life-zone` gives them their dark surface: their colours were checked
- *   for WCAG AA contrast on these dark backgrounds only, so they keep them
- *   whatever the system theme.
+ * - They share the app colour tokens (ADR 0013); `life-zone` only scopes
+ *   their slider and touch-screen rules (globals.css).
  * - Animations follow the system "reduce motion" setting (WCAG 2.3.3).
  * - These screens read the device clock and load their data in the browser:
  *   they render after hydration, with a skeleton meanwhile.

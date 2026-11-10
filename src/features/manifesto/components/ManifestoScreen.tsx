@@ -157,7 +157,7 @@ export default function ManifestePage() {
       {/* Barre de progression de lecture */}
       <motion.div
         className="fixed top-14 lg:top-14 left-0 lg:left-60 right-0 h-[3px] z-40 origin-left bg-gradient-to-r from-ember via-flame to-ember"
-        style={{ scaleX: progress, boxShadow: "0 0 12px rgba(245,158,11,0.6)" }}
+        style={{ scaleX: progress, boxShadow: "0 0 12px rgba(212,175,55,0.6)" }}
       />
 
       {/* En-tête */}
@@ -194,7 +194,7 @@ export default function ManifestePage() {
                   active === c.id ? "bg-ember/10 text-flame" : "text-smoke hover:text-dust hover:bg-raise/40"
                 }`}
               >
-                <span className={`w-[3px] h-4 rounded-full transition-all ${active === c.id ? "bg-ember" : "bg-transparent"}`} style={active === c.id ? { boxShadow: "0 0 8px rgba(245,158,11,0.7)" } : {}} />
+                <span className={`w-[3px] h-4 rounded-full transition-all ${active === c.id ? "bg-ember" : "bg-transparent"}`} style={active === c.id ? { boxShadow: "0 0 8px rgba(212,175,55,0.7)" } : {}} />
                 <span className="text-[11.5px] truncate">{c.title}</span>
               </button>
             ))}

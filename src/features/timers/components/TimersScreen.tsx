@@ -15,7 +15,7 @@ type View = "all" | "today" | "week" | "calendar";
 
 const STATUS_UI = {
   late: { label: "EN RETARD", color: "#f87171", bg: "rgba(239,68,68,0.08)", border: "rgba(239,68,68,0.35)" },
-  soon: { label: "BIENTÔT", color: "#f59e0b", bg: "rgba(245,158,11,0.07)", border: "rgba(245,158,11,0.35)" },
+  soon: { label: "BIENTÔT", color: "#d4af37", bg: "rgba(212,175,55,0.07)", border: "rgba(212,175,55,0.35)" },
   ok: { label: "OK", color: "#10b981", bg: "rgba(16,185,129,0.05)", border: "rgba(16,185,129,0.25)" },
 };
 
@@ -229,7 +229,7 @@ export default function TimersPage() {
                           key={i}
                           onClick={() => list.length && setSelDay(key)}
                           className={`aspect-square rounded-md flex flex-col items-center justify-center transition-all ${selDay === key ? "ring-2 ring-ember" : ""} ${list.length ? "cursor-pointer" : "cursor-default"}`}
-                          style={{ background: list.length ? (overdue ? "rgba(239,68,68,0.25)" : "rgba(245,158,11,0.18)") : "#141416" }}
+                          style={{ background: list.length ? (overdue ? "rgba(239,68,68,0.25)" : "rgba(212,175,55,0.18)") : "#141414" }}
                         >
                           <span className={`text-[10px] font-semibold ${list.length ? "text-ember" : "text-smoke"}`}>{Number(key.slice(8))}</span>
                           {list.length > 0 && <span className="text-[8px] text-ember">{list.length} cycle{list.length > 1 ? "s" : ""}</span>}

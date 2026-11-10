@@ -17,7 +17,7 @@ import {
 } from "../domain/network";
 import { interestColor, type Interest } from "../domain/interests";
 
-const SELF_COLOR = "#fbbf24";
+const SELF_COLOR = "#e6c35c";
 
 function freshnessLabel(fr: Freshness): string {
   return fr.status === "late" ? "À recontacter" : fr.status === "soon" ? "Bientôt" : "À jour";
@@ -47,7 +47,7 @@ export function Avatar({ p, size = 44, decorative = false }: { p: Person; size?:
       <div
         className={`w-full h-full rounded-full flex items-center justify-center font-display font-bold ${p.deceased ? "grayscale opacity-70" : ""}`}
         style={{
-          background: `radial-gradient(circle at 30% 25%, ${ring}33, #141416 70%)`,
+          background: `radial-gradient(circle at 30% 25%, ${ring}33, #141414 70%)`,
           border: `2px ${p.coldSince ? "dashed" : "solid"} ${ring}`,
           color: "#e5e5e5",
           fontSize: size * 0.36,
@@ -61,13 +61,13 @@ export function Avatar({ p, size = 44, decorative = false }: { p: Person; size?:
           <DynIcon name="snowflake" className="w-2.5 h-2.5" style={{ color: COLD_COLOR }} />
         </span>
       ) : p.deceased ? (
-        <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#1a1a1c] border border-line2 text-[9px] text-dust flex items-center justify-center" title="Décédé·e" aria-hidden="true">
+        <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#1a1a1a] border border-line2 text-[9px] text-dust flex items-center justify-center" title="Décédé·e" aria-hidden="true">
           †
         </span>
       ) : (
         fr.status !== "none" && (
           <span
-            className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#1a1a1c]"
+            className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#1a1a1a]"
             style={{ background: fr.color }}
             title={freshnessLabel(fr)}
             aria-hidden="true"
@@ -84,7 +84,7 @@ export function IntimacyDots({ level }: { level: number }) {
     <span className="inline-flex items-center gap-1.5" role="img" aria-label={m.label}>
       <span className="flex gap-0.5">
         {[1, 2, 3, 4, 5].map((i) => (
-          <span key={i} className="w-1.5 h-1.5 rounded-full" style={{ background: i <= level ? m.color : "#2e2e33" }} />
+          <span key={i} className="w-1.5 h-1.5 rounded-full" style={{ background: i <= level ? m.color : "#333333" }} />
         ))}
       </span>
       <span className="text-[10px] font-semibold" style={{ color: m.color }}>{m.label}</span>

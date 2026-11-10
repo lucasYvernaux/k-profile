@@ -8,7 +8,7 @@ import { COLD_COLOR, displayName, intimacyMeta, lifeYears, shortName, type Perso
 import { LINK_KINDS, linkKind, relationsTo } from "../domain/kinship";
 import { TREE_NODE, familyGroups, layoutFamilyTree } from "../domain/family-tree";
 
-const SELF_COLOR = "#fbbf24";
+const SELF_COLOR = "#e6c35c";
 const { width: W, height: H } = TREE_NODE;
 
 const truncate = (text: string, max: number) => (text.length > max ? `${text.slice(0, max - 1)}…` : text);
@@ -127,7 +127,7 @@ export function FamilyTree({
       {/* Personne sélectionnée */}
       <div className="min-h-[44px] mb-2">
         {sel ? (
-          <div className="flex items-center gap-3 flex-wrap rounded-xl border border-line bg-[#121214] px-3 py-2">
+          <div className="flex items-center gap-3 flex-wrap rounded-xl border border-line bg-[#121212] px-3 py-2">
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-semibold text-ash truncate">{sel.isSelf ? "Moi" : displayName(sel)}</p>
               <p className="text-[10px] text-smoke">
@@ -143,7 +143,7 @@ export function FamilyTree({
         )}
       </div>
 
-      <div className="rounded-xl border border-line bg-[#0c0c0e] overflow-auto max-h-[78vh]" onClick={() => setSelected(null)}>
+      <div className="rounded-xl border border-line bg-[#0c0c0c] overflow-auto max-h-[78vh]" onClick={() => setSelected(null)}>
         <svg
           width={zoom === null ? "100%" : tree.width * zoom}
           height={zoom === null ? undefined : tree.height * zoom}
@@ -205,7 +205,7 @@ export function FamilyTree({
             return (
               <g key={`p-${i}`} opacity={dimEdge(p.aId, p.bId) ? 0.12 : 0.9}>
                 <line x1={p.x1} x2={p.x2} y1={p.y} y2={p.y} stroke={m.color} strokeWidth={2} strokeDasharray={m.dash} />
-                {p.kind === "marie" && <circle cx={mid} cy={p.y} r={4} fill="#0c0c0e" stroke={m.color} strokeWidth={1.5} />}
+                {p.kind === "marie" && <circle cx={mid} cy={p.y} r={4} fill="#0c0c0c" stroke={m.color} strokeWidth={1.5} />}
                 {p.kind === "ex" && <text x={mid} y={p.y - 5} textAnchor="middle" fill={m.color} fontSize="9">ex</text>}
               </g>
             );

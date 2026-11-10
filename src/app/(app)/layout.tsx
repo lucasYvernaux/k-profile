@@ -7,9 +7,9 @@ import { NotificationWatcher } from "@/shared/layout/NotificationWatcher";
 export default function AppLayout({ children }: LayoutProps<"/">) {
   return (
     <>
-      <header className="border-b border-border bg-surface">
+      <header className="hairline-top border-b border-line bg-black/80 backdrop-blur">
         <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-          <Link href="/aujourdhui" className="text-2xl font-bold" aria-label="K, accueil">
+          <Link href="/aujourdhui" className="font-display text-2xl font-bold text-accent text-glow" aria-label="K, accueil">
             K
           </Link>
           <SignOutButton />
