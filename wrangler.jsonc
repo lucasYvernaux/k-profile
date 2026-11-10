@@ -52,4 +52,34 @@
     "VAPID_PUBLIC_KEY": "BFcflbhBqHXxmVgnD4t7qxQhwHHpglHnp95fIzLlzIAqhZDQgrznNjYi34t92qC5PUZgFTztLuxUNa3SUe6axg8",
     "VAPID_SUBJECT": "mailto:lucas.yvernaux@gmail.com",
   },
+  /*
+   * Worker Previews (pre-production, branch `develop`). Previews never inherit the
+   * production settings above: everything a Preview needs is declared here.
+   * https://developers.cloudflare.com/workers/previews/configuration/
+   *
+   * - Separate database (Hyperdrive k-profile-db-dev): a Preview must never reach production data.
+   * - No WORKER_SELF_REFERENCE: from a Preview, a service binding calls the PRODUCTION Worker.
+   *   OpenNext only uses it for revalidation queues, and every page here is dynamic (ADR 0005).
+   * - Cron Triggers do not run on Previews, so CRON_SECRET and push keys are not needed.
+   * - Secrets (set once on the Previews Base, never reuse the production values):
+   *     pnpm exec wrangler preview base-config secret put BETTER_AUTH_SECRET
+   *     pnpm exec wrangler preview base-config secret put DATA_ENCRYPTION_KEY
+   */
+  "previews": {
+    "hyperdrive": [
+      {
+        "binding": "HYPERDRIVE",
+        "id": "6106805353654e21b2005a93f176d7d3",
+        "localConnectionString": "postgres://k:change-me@localhost:5432/k_dev",
+      },
+    ],
+    "vars": {
+      // Preview custom domain (set in the dashboard, Domains tab): <preview-name>.k-profile.preview…
+      // Sign-in only works on this origin, not on the workers.dev Preview URL.
+      "BETTER_AUTH_URL": "https://develop.k-profile.preview.yvernaux-web-solutions.com",
+      // Open so a test account can be created on the empty pre-production database.
+      // Protect the Preview URL with Cloudflare Access (Settings > Domains).
+      "ALLOW_SIGNUP": "true",
+    },
+  },
 }

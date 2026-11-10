@@ -195,6 +195,79 @@ Si tu as un domaine géré par Cloudflare : Worker `k-profile` → **Settings** 
 Mets ensuite `BETTER_AUTH_URL` à jour avec ce domaine et redéploie : l'authentification refuse les
 requêtes dont l'origine ne correspond pas.
 
+## 12. Pré-production : Worker Preview de la branche `develop`
+
+`main` déploie la production. Chaque push sur `develop` crée ou met à jour une
+[Worker Preview](https://developers.cloudflare.com/workers/previews/) : même Worker, mais avec ses
+propres variables, secrets et base de données, servie sur
+`https://develop.k-profile.preview.yvernaux-web-solutions.com`. Décision : ADR 0011.
+
+Le domaine de Preview `k-profile.preview.yvernaux-web-solutions.com` est déclaré dans le tableau de
+bord (Worker → **Domains**). Cloudflare sert chaque Preview sur `<nom-de-la-preview>.<ce domaine>`
+([Custom domains](https://developers.cloudflare.com/workers/previews/custom-domains/)), et le nom
+d'une Preview est par défaut celui de la branche. La connexion ne fonctionne que sur cette origine
+(`BETTER_AUTH_URL`), pas sur l'URL `workers.dev` de la Preview.
+
+Une Preview **n'hérite d'aucun réglage de production**. Tout ce qu'elle utilise est déclaré dans le
+bloc `previews` de `wrangler.jsonc`.
+
+### Une seule fois
+
+1. **Base de pré-production.** La Hyperdrive `k-profile-db-dev` pointe vers la branche Neon
+   `develop`. Désactive son cache, comme en production (sinon les sessions et le TOTP peuvent être
+   lus périmés, voir `docs/troubleshooting/cloudflare-workers.md`) :
+
+   ```bash
+   pnpm exec wrangler hyperdrive update 6106805353654e21b2005a93f176d7d3 --caching-disabled
+   ```
+
+   La branche `develop` a été créée depuis `production` : elle contient une **copie des données
+   réelles** (comptes, sessions, données chiffrées avec la clé de production). Vide-la avant
+   d'ouvrir la Preview, depuis le SQL Editor de Neon **sur la branche `develop`** :
+
+   ```sql
+   TRUNCATE "user", "verification", "rate_limit" CASCADE;
+   ```
+
+   `CASCADE` vide aussi toutes les tables qui référencent un compte. Ne clique pas ensuite sur
+   **Reset from parent** : cela recopierait la production.
+
+2. **Migrations sur la base de pré-production** (connexion directe, non poolée, de cette base) :
+
+   ```powershell
+   $env:DATABASE_URL_UNPOOLED = "<URL directe de la base de pré-production>"; pnpm db:migrate
+   ```
+
+   La variable définie dans le terminal passe avant celle de `.env.local`.
+
+3. **Secrets de la Preview**, avec des valeurs **différentes** de la production (générées comme à
+   l'étape 3) :
+
+   ```bash
+   pnpm exec wrangler preview base-config secret put BETTER_AUTH_SECRET
+   pnpm exec wrangler preview base-config secret put DATA_ENCRYPTION_KEY
+   ```
+
+   `CRON_SECRET` et `VAPID_PRIVATE_KEY` sont inutiles : les Cron Triggers ne tournent qu'en
+   production.
+
+4. **Workers Builds** : Worker `k-profile` → **Settings** → **Builds** :
+   - **Branch control** : branche de production `main`, coche **Enable Preview Builds** ;
+   - **Preview command** : `npx wrangler preview` ;
+   - si un bandeau **Set up Worker Previews** apparaît, fais la bascule. Cloudflare indique qu'elle
+     est **irréversible** et qu'avant elle, les builds hors production utilisaient les réglages de
+     production
+     ([Build branches](https://developers.cloudflare.com/workers/ci-cd/builds/build-branches/#existing-workers-connected-to-builds)).
+
+5. **Accès.** Les URL de Preview (domaine personnalisé et `workers.dev`) sont publiques. Protège-les
+   avec Cloudflare Access (Worker → **Domains** → **Enable Access**), surtout tant que
+   `ALLOW_SIGNUP` vaut `"true"` dans `previews.vars`.
+
+### Ensuite
+
+- Push sur `develop` → Preview mise à jour. Fusion `develop` → `main` → production.
+- Avant de fusionner dans `main`, applique aussi les nouvelles migrations sur la base de production.
+
 ## Développer et tester en local dans le runtime Workers
 
 ```bash
