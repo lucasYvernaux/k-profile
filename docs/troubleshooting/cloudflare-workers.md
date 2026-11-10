@@ -19,10 +19,12 @@ Hyperdrive de Cloudflare.
 `next build` vérifie les types de tout le projet. Une erreur de type dans un fichier de
 configuration de test fait échouer `opennextjs-cloudflare build`.
 
-## `proxy.ts` ignoré ou refusé
+## `proxy.ts` sur Workers (expérimental)
 
-Le `proxy` de Next.js 16 tourne en Node.js, non pris en charge par OpenNext. Garder
-`src/middleware.ts` (Edge). L'avertissement de dépréciation au build est attendu (ADR 0008).
+Le `proxy` de Next.js 16 tourne en Node.js. OpenNext 1.20 le prend en charge à titre
+expérimental : l'avertissement « Node.js middleware support is experimental in cloudflare » au build
+est attendu (ADR 0012). Si la CSP ou la redirection vers `/connexion` disparaît sur Workers, revenir
+à `src/middleware.ts` (Edge, fonction `middleware`), comme dans l'ADR 0008.
 
 ## Erreur 1102 « Worker exceeded resource limits »
 

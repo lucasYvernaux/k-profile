@@ -2,10 +2,9 @@ import { getSessionCookie } from "better-auth/cookies";
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * Next.js 16 renamed middleware to "proxy", but proxy only runs on the
- * Node.js runtime, which the OpenNext Cloudflare adapter does not support
- * yet. This file stays a (deprecated) Edge middleware so it runs on
- * Cloudflare Workers (ADR 0008).
+ * Next.js 16 proxy (formerly middleware). It always runs on the Node.js
+ * runtime; on Cloudflare Workers, OpenNext 1.20 bundles it as an
+ * experimental, unofficially maintained feature (ADR 0012).
  *
  * 1. Strict, nonce-based Content Security Policy on every page
  *    (Next.js CSP guide; OWASP A05 Injection / XSS defence in depth).
@@ -23,6 +22,18 @@ const PROTECTED_PREFIXES = [
   "/reglages",
   "/onboarding",
   "/securite",
+  // Life modules merged from NYX-KAIROS (ADR 0010)
+  "/routine",
+  "/bilan",
+  "/consommations",
+  "/sante",
+  "/reseau",
+  "/entretien",
+  "/objectifs",
+  "/revue-hebdo",
+  "/audit-mensuel",
+  "/manifeste",
+  "/atelier",
 ];
 
 function contentSecurityPolicy(nonce: string): string {
@@ -44,7 +55,7 @@ function contentSecurityPolicy(nonce: string): string {
   ].join("; ");
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isProtected = PROTECTED_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
   if (isProtected && !getSessionCookie(request)) {

@@ -78,7 +78,7 @@ self.addEventListener("fetch", (event) => {
 });
 
 self.addEventListener("push", (event) => {
-  let payload = { title: "K", body: "Journal du soir : 5 minutes pour nommer 3 émotions.", url: "/journal" };
+  let payload = { title: "Hespéride", body: "Journal du soir : 5 minutes pour nommer 3 émotions.", url: "/journal" };
   try {
     payload = { ...payload, ...event.data.json() };
   } catch {

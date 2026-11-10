@@ -33,8 +33,10 @@ export async function POST(request: Request) {
       case "check-in":
         try {
           await setCheckIn(user.id, item.habitId, item.day, item.done);
-        } catch {
-          // Habit deleted since the item was queued: ignore.
+        } catch (error) {
+          // Only a habit deleted since the item was queued is skipped; any other failure must
+          // fail the request so the device keeps its queue.
+          if (!(error instanceof RangeError)) throw error;
         }
         break;
       case "journal":

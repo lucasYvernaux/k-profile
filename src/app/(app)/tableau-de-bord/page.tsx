@@ -30,7 +30,10 @@ async function Dashboard() {
           <Link href="/revue" className="link">Commencer la revue</Link>
         </p>
       )}
-      <PillarCards indicators={indicators} latestScores={latest?.scores} />
+      {/* The one motion of this screen: the grid comes into focus once (CSS, visible without JS). */}
+      <div className="focus-in">
+        <PillarCards indicators={indicators} latestScores={latest?.scores} />
+      </div>
       <section className="card flex flex-col gap-4" aria-labelledby="evolution-title">
         <h2 id="evolution-title" className="section-title">Évolution des notes trimestrielles</h2>
         <ScoreCharts series={scoreSeries(reviews)} />

@@ -43,7 +43,7 @@ function vapidReady(): boolean {
 
 /** The notification text is generic on purpose: it can show on a locked screen. */
 const REMINDER = JSON.stringify({
-  title: "K",
+  title: "Hespéride",
   body: "Journal du soir : 5 minutes pour nommer 3 émotions.",
   url: "/journal",
 });

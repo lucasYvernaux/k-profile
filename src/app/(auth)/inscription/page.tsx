@@ -9,7 +9,7 @@ export default function SignUpPage() {
     <>
       <h1 className="page-title">Créer le compte</h1>
       <p className="text-muted">
-        K est une application personnelle. Les inscriptions sont fermées par défaut et ne
+        Hespéride est une application personnelle. Les inscriptions sont fermées par défaut et ne
         s&apos;ouvrent que pour créer le premier compte.
       </p>
       <SignUpForm />

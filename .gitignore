@@ -54,3 +54,6 @@ next-env.d.ts
 .dev.vars*
 cloudflare-env.d.ts
 .neon
+
+# graphify (local knowledge graph)
+/graphify-out/

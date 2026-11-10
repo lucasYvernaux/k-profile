@@ -18,7 +18,7 @@ import { env } from "./env";
  */
 export function createAuth(db: Database) {
   return betterAuth({
-    appName: "K",
+    appName: "Hespéride",
     baseURL: env().BETTER_AUTH_URL,
     secret: env().BETTER_AUTH_SECRET,
     database: drizzleAdapter(db, { provider: "pg", schema }),
@@ -54,7 +54,7 @@ export function createAuth(db: Database) {
     user: {
       deleteUser: { enabled: true },
     },
-    plugins: [twoFactor({ issuer: "K" }), nextCookies()],
+    plugins: [twoFactor({ issuer: "Hespéride" }), nextCookies()],
   });
 }
 

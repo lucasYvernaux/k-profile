@@ -19,7 +19,7 @@ export function HabitScience() {
           niveau d&apos;automaticité atteint. D&apos;où la règle : ne jamais rater deux jours d&apos;affilée.
         </p>
         <p>
-          Le seuil « stable » de K (80 % sur 6 semaines) est un choix de conception, pas un chiffre
+          Le seuil « stable » d&apos;Hespéride (80 % sur 6 semaines) est un choix de conception, pas un chiffre
           scientifique.
         </p>
         <p className="hint">

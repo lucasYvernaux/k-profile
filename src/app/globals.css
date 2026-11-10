@@ -1,70 +1,150 @@
 @import "tailwindcss";
 
 /*
- * Colour tokens. Contrast ratios checked against WCAG 2.2 AA
- * (4.5:1 for text, 3:1 for UI components and focus indicators).
+ * NYX-KAIROS visual identity, shared by every page (ADR 0013).
+ *
+ *   60 % black      #000000  page background, base elements
+ *   30 % silver     #c0c0c0  main text, background gradients, scrollbars
+ *   10 % gold       #d4af37  buttons, glows, cursors, hover borders
+ *   depth aubergine #4b0082  subtle background gradients, selection
+ *
+ * Single dark theme. Contrast ratios checked against WCAG 2.2 AA
+ * (4.5:1 for text, 3:1 for UI components and focus indicators); the
+ * ratios below are against the lightest surface each colour sits on.
  */
 :root {
-  --background: #fafaf9;
-  --surface: #ffffff;
-  --foreground: #1c1917;
-  --muted: #57534e;
-  --border: #78716c;
-  --accent: #0f766e;
-  --accent-contrast: #ffffff;
-  --accent-hover: #115e59;
-  --accent-soft: #ccfbf1;
-  --warning-bg: #fef3c7;
-  --warning-fg: #78350f;
-  --danger: #b91c1c;
-  --focus: #1d4ed8;
-  color-scheme: light;
-}
+  /* Mock-up colours */
+  --nyx-black: #000000;
+  --nyx-silver: #c0c0c0;
+  --nyx-gold: #d4af37;
+  --nyx-aubergine: #4b0082;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0c0a09;
-    --surface: #1c1917;
-    --foreground: #f5f5f4;
-    --muted: #d6d3d1;
-    --border: #78716c;
-    --accent: #5eead4;
-    --accent-contrast: #042f2e;
-    --accent-hover: #99f6e4;
-    --accent-soft: #134e4a;
-    --warning-bg: #451a03;
-    --warning-fg: #fde68a;
-    --danger: #fca5a5;
-    --focus: #93c5fd;
-    color-scheme: dark;
-  }
+  /* Surfaces (neutral greys between black and silver) */
+  --background: var(--nyx-black);
+  --surface-inset: #0f0f0f; /* form fields */
+  --surface: #1a1a1a;
+  --surface-card: #262626;
+  --surface-raise: #333333;
+
+  /* Text */
+  --foreground: var(--nyx-silver); /* 6.9:1 on #333333 */
+  --muted: #a0a0a0; /* 4.8:1 on #333333 */
+  --lavender: #b39ddb; /* aubergine tint readable as text, 5.3:1 on #333333 */
+
+  /* Lines: --border for form fields and controls (3:1), --line/--line-strong for decoration */
+  --border: #808080; /* 4.4:1 on #1a1a1a */
+  --line: #404040;
+  --line-strong: #505050;
+
+  /* Gold accent */
+  --accent: var(--nyx-gold); /* 10:1 on black, 6.0:1 on #333333 */
+  --accent-strong: #e6c35c; /* bright gold */
+  --accent-deep: #a8862a; /* dark gold, 6.1:1 under black text */
+  --accent-contrast: var(--nyx-black);
+  --accent-hover: var(--accent-strong);
+
+  /* Aubergine: selection and hovered rows */
+  --selection: var(--nyx-aubergine); /* silver text on it: 7.1:1 */
+  --accent-soft: #1e0f33; /* aubergine tint, silver text on it: 9.9:1 */
+
+  /* Status colours (meaning, not decoration) */
+  --danger: #f87171; /* 4.6:1 on #333333 */
+  --success: #10b981; /* 5.0:1 on #333333 */
+  --warning-bg: #451a03;
+  --warning-fg: #fde68a;
+
+  --focus: var(--nyx-gold);
+
+  color-scheme: dark;
+  accent-color: var(--accent);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-inset: var(--surface-inset);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-contrast: var(--accent-contrast);
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
+  --color-selection: var(--selection);
   --color-warning-bg: var(--warning-bg);
   --color-warning-fg: var(--warning-fg);
   --color-danger: var(--danger);
+  --color-success: var(--success);
+
+  /* Names used by the screens merged from NYX-KAIROS (ADR 0010), same tokens. */
+  --color-void: var(--background);
+  --color-coal: var(--surface);
+  --color-panel: var(--surface);
+  --color-card: var(--surface-card);
+  --color-raise: var(--surface-raise);
+  --color-line2: var(--line-strong);
+  --color-ember: var(--accent);
+  --color-flame: var(--accent);
+  --color-blood: var(--danger);
+  --color-jade: var(--success);
+  --color-ash: var(--foreground);
+  --color-dust: var(--lavender);
+  --color-smoke: var(--muted);
+
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-sans);
 }
 
 html {
   font-size: 100%;
+  background-color: var(--background);
+  scrollbar-color: var(--nyx-silver) var(--background);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-image:
+    radial-gradient(1200px 500px at 80% -10%, rgba(75, 0, 130, 0.15), transparent 60%),
+    radial-gradient(900px 420px at -10% 110%, rgba(192, 192, 192, 0.05), transparent 60%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
   line-height: 1.5;
+}
+
+/* Browsers without `scrollbar-color` (older Safari). */
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--nyx-silver);
+    border: 2px solid var(--background);
+    border-radius: 999px;
+  }
+}
+
+::selection {
+  background: var(--selection);
+  color: #ffffff;
+}
+
+input,
+textarea,
+[contenteditable] {
+  caret-color: var(--accent);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
 }
 
 :focus-visible {
@@ -77,6 +157,7 @@ body {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
@@ -88,23 +169,24 @@ body {
   }
 
 @utility card {
-    @apply rounded-xl border border-border bg-surface p-4 sm:p-6;
+    @apply rounded-xl border border-line p-4 sm:p-6;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)), var(--surface);
   }
 
 @utility btn {
-    @apply inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-lg border border-transparent px-4 py-2 font-semibold disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-lg border border-transparent px-4 py-2 font-semibold transition-[background-color,border-color,color,box-shadow] disabled:cursor-not-allowed disabled:opacity-60;
   }
 
 @utility btn-primary {
-    @apply btn bg-accent text-accent-contrast hover:bg-accent-hover;
+    @apply btn bg-accent text-accent-contrast hover:bg-accent-hover hover:shadow-[0_0_14px_rgba(212,175,55,0.35)];
   }
 
 @utility btn-secondary {
-    @apply btn border-border bg-surface text-foreground hover:bg-accent-soft;
+    @apply btn border-border bg-surface text-foreground hover:border-accent hover:text-accent;
   }
 
 @utility btn-danger {
-    @apply btn bg-danger text-white dark:text-stone-950;
+    @apply btn bg-danger text-black;
   }
 
 @utility field {
@@ -120,7 +202,7 @@ body {
   }
 
 @utility input {
-    @apply min-h-11 rounded-lg border border-border bg-surface px-3 py-2 text-foreground;
+    @apply min-h-11 rounded-lg border border-border bg-inset px-3 py-2 text-foreground placeholder:text-muted focus:border-accent;
   }
 
 @utility error-text {
@@ -128,21 +210,153 @@ body {
   }
 
 @utility notice {
-    @apply rounded-lg border border-border bg-accent-soft p-4;
+    @apply rounded-lg border border-line bg-accent-soft p-4;
   }
 
 @utility warning {
-    @apply rounded-lg border border-border bg-warning-bg p-4 text-warning-fg;
+    @apply rounded-lg border border-line bg-warning-bg p-4 text-warning-fg;
   }
 
 @utility link {
-    @apply font-semibold text-accent underline underline-offset-4;
+    @apply font-semibold text-accent underline underline-offset-4 hover:text-accent-hover;
   }
 
 @utility page-title {
-    @apply text-2xl font-bold sm:text-3xl;
+    @apply font-display text-2xl font-bold text-foreground sm:text-3xl;
   }
 
 @utility section-title {
-    @apply text-xl font-bold;
+    @apply font-display text-xl font-bold text-foreground;
   }
+
+/* ==========================================================================
+ * Screens merged from NYX-KAIROS (ADR 0010). They use the same tokens as
+ * the rest of the app (ADR 0013); `.life-zone` only keeps their behaviour.
+ * ========================================================================== */
+.life-zone {
+  --font-mono-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  min-width: 0;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.glow-ember {
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.35), 0 0 40px rgba(212, 175, 55, 0.12);
+}
+
+.text-glow {
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.45);
+}
+
+.card-frame {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)), var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.card-frame:hover {
+  border-color: var(--accent);
+}
+
+.hairline-top {
+  position: relative;
+}
+
+.hairline-top::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35), transparent);
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.35); }
+  70% { box-shadow: 0 0 0 12px rgba(212, 175, 55, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2.4s infinite;
+}
+
+@keyframes flicker {
+  0%, 41%, 43%, 48%, 100% { opacity: 1; }
+  42% { opacity: 0.75; }
+  47% { opacity: 0.85; }
+}
+
+.flicker {
+  animation: flicker 6s infinite;
+}
+
+/* One-time entrance by focus (dashboard pillar grid, ADR 0014). Pure CSS: shown even without JS. */
+@keyframes focus-in {
+  from { opacity: 0; filter: blur(8px); }
+}
+
+.focus-in {
+  animation: focus-in 0.8s ease-out both;
+}
+
+/* Gold slider; the screen sets --fill to the current value. */
+.life-zone input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--accent) var(--fill, 50%), var(--muted) var(--fill, 50%));
+}
+
+.life-zone input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--nyx-silver);
+  cursor: pointer;
+}
+
+.life-zone input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--nyx-silver);
+  cursor: pointer;
+}
+
+@media (max-width: 639px) {
+  /* iOS Safari zooms into fields under 16px. */
+  .life-zone input,
+  .life-zone select,
+  .life-zone textarea {
+    font-size: 16px !important;
+  }
+
+  /* Dialogs become sheets attached to the bottom edge. */
+  .sheet-mobile {
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  /* Actions revealed on hover must stay visible without a mouse. */
+  .life-zone .group-hover\:opacity-100 {
+    opacity: 1;
+  }
+
+  /* Small icon buttons: larger tap area. */
+  .life-zone button.p-1,
+  .life-zone button.p-1\.5 {
+    padding: 0.5rem;
+  }
+}
