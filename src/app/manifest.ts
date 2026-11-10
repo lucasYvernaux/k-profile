@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "K, coach de développement personnel",
-    short_name: "K",
+    name: "Hespéride, coach de développement personnel",
+    short_name: "Hespéride",
     description: "Habitudes, journal émotionnel et feuille de route sur 5 ans.",
     lang: "fr",
     start_url: "/aujourdhui",

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AppNav } from "@/components/app-nav";
+import { Logo } from "@/components/logo";
 import { OfflineSync } from "@/components/offline-sync";
 import { SignOutButton } from "@/components/sign-out-button";
 import { NotificationWatcher } from "@/shared/layout/NotificationWatcher";
@@ -9,8 +10,9 @@ export default function AppLayout({ children }: LayoutProps<"/">) {
     <>
       <header className="hairline-top border-b border-line bg-black/80 backdrop-blur">
         <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-          <Link href="/aujourdhui" className="font-display text-2xl font-bold text-accent text-glow" aria-label="K, accueil">
-            K
+          <Link href="/aujourdhui" className="flex items-center gap-2 font-display text-xl font-bold text-accent" aria-label="Hespéride, accueil">
+            <Logo />
+            <span className="text-glow">Hespéride</span>
           </Link>
           <SignOutButton />
         </div>
@@ -26,7 +28,7 @@ export default function AppLayout({ children }: LayoutProps<"/">) {
         </main>
       </div>
       <footer className="mx-auto w-full max-w-7xl px-4 py-6 text-sm text-muted">
-        K ne pose aucun diagnostic et ne donne pas de conseil médical, fiscal ou financier personnalisé.
+        Hespéride ne pose aucun diagnostic et ne donne pas de conseil médical, fiscal ou financier personnalisé.
         Pour cela, adresse-toi à un professionnel de santé, un psychologue, un expert-comptable ou un conseiller
         financier.
       </footer>

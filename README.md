@@ -1,4 +1,8 @@
-# K, coach de développement personnel
+# Hespéride, coach de développement personnel
+
+Le nom vient des Hespérides, filles de Nyx, la Nuit, chez Hésiode (*Théogonie*, 211-215) : les
+nymphes du soir, comme le rituel du soir de l'application. Le logo, une rosace à six branches,
+représente les six piliers (ADR 0015).
 
 Application personnelle pour construire, sur 4 à 5 ans, la version saine du « profil K » :
 6 piliers (maîtrise émotionnelle, corps, maker, stratégie/business/argent, famille choisie,

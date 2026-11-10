@@ -77,7 +77,7 @@ export function PushSettings({ publicKey }: { publicKey?: string }) {
     return <p role="status">Vérification…</p>;
   }
   if (support === "unsupported") {
-    return <p>Ce navigateur ne gère pas les notifications push. Sur iPhone, installe d&apos;abord K sur l&apos;écran d&apos;accueil.</p>;
+    return <p>Ce navigateur ne gère pas les notifications push. Sur iPhone, installe d&apos;abord Hespéride sur l&apos;écran d&apos;accueil.</p>;
   }
   if (support === "unconfigured") {
     return <p>Les notifications ne sont pas configurées sur ce serveur (clés VAPID absentes).</p>;

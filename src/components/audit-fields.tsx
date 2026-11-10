@@ -29,7 +29,7 @@ export function AuditFields({ errors = {}, defaultDate }: AuditFieldsProps) {
         legend="Personnalité (Big Five)"
         hint={
           <>
-            K n&apos;intègre pas de questionnaire : passe un test basé sur l&apos;IPIP (
+            Hespéride n&apos;intègre pas de questionnaire : passe un test basé sur l&apos;IPIP (
             <a href={SOURCES.ipip.url} className="link" target="_blank" rel="noopener noreferrer">
               ipip.ori.org
             </a>
