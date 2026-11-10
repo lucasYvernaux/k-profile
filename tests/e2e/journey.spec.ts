@@ -174,7 +174,7 @@ test("settings: export decrypted data", async () => {
     page.getByRole("link", { name: "Export complet (JSON)" }).click(),
   ]);
   const data = JSON.parse(await readFile((await download.path()) ?? "", "utf8"));
-  expect(data.format).toBe("k-coach-export/1");
+  expect(data.format).toBe("k-coach-export/2");
   expect(data.journal).toHaveLength(2);
   expect(data.audits[0].data.business.dailyRate).toBe(450);
 });

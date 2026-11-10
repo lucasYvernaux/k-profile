@@ -14,3 +14,14 @@ Source : OWASP Top 10:2025, https://owasp.org/Top10/2025/ (liste vérifiée le 2
 | A08:2025 Software or Data Integrity Failures | Tag GCM vérifié à chaque déchiffrement, vérification d'origine sur les API JSON (anti-CSRF), secret comparé en temps constant sur l'endpoint cron. | — |
 | A09:2025 Security Logging and Alerting Failures | Better Auth journalise les échecs de mot de passe. | Journal d'audit des connexions et alertes : non fait. Ne jamais journaliser de contenu du journal. |
 | A10:2025 Mishandling of Exceptional Conditions | Erreurs de déchiffrement normalisées (`DecryptionError`), réponses JSON génériques, file hors ligne qui abandonne les éléments invalides (400) au lieu de boucler. | Pages `error.tsx` personnalisées. |
+
+## Modules repris de NYX-KAIROS (ADR 0010)
+
+| Risque | Mesure |
+|---|---|
+| A01 Contrôle d'accès | `route()` exige un utilisateur avec TOTP ; chaque requête filtre sur `currentUserId()` ; clés étrangères `(user_id, id)` : une ligne ne peut pas référencer les données d'un autre compte. Tests e2e : lecture, modification, suppression et ajout de contact refusés depuis un autre compte. |
+| A01 CSRF | Vérification `Origin` / `Sec-Fetch-Site` sur toute requête qui modifie (`src/server/http/origin.ts`). |
+| A04 Défaillances cryptographiques | Colonnes `sealed()` (AES-256-GCM, clé par utilisateur, données associées colonne + utilisateur) ; accès hors contexte utilisateur refusé. |
+| A05 Injection | Requêtes Drizzle paramétrées ; entrées validées par zod (clés inconnues retirées, tailles bornées, corps JSON ≤ 64 Kio par défaut). |
+| A06 Conception | Import de sauvegarde NYX (effaçait toutes les tables) non repris ; migration par script unique, base source en lecture seule. |
+| A09/A10 Journalisation et erreurs | Erreurs inattendues : réponse générique 500 ; `describeError` ne journalise jamais les paramètres SQL. |

@@ -18,6 +18,7 @@ import type { ScheduleBlock } from "@/domain/schedule";
 import { user } from "./auth-schema";
 
 export * from "./auth-schema";
+export * from "./life-schema";
 
 /*
  * Every column suffixed "Enc" holds AES-256-GCM ciphertext produced by

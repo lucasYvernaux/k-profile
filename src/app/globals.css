@@ -146,3 +146,190 @@ body {
 @utility section-title {
     @apply text-xl font-bold;
   }
+
+/* ==========================================================================
+ * "Life" modules merged from NYX-KAIROS (ADR 0010).
+ * Their screens use a dark palette whose text colours were checked for WCAG
+ * AA contrast (4.5:1) on these surfaces only, so `.life-zone` keeps them dark
+ * whatever the system theme. Converting them to the light/dark tokens above
+ * is follow-up work (docs/adr/0010-fusion-nyx-kairos.md).
+ * ========================================================================== */
+@theme {
+  --color-void: #000000;
+  --color-coal: #1a1a1a;
+  --color-panel: #1a1a1a;
+  --color-card: #262626;
+  --color-raise: #333333;
+  --color-line: #404040;
+  --color-line2: #505050;
+  --color-ember: #d4af37;
+  --color-flame: #d4af37;
+  --color-blood: #f87171; /* 4.6:1 on raise */
+  --color-jade: #10b981; /* 5.0:1 on raise */
+  --color-ash: #c0c0c0; /* 6.9:1 on raise */
+  --color-dust: #b39ddb; /* 5.3:1 on raise */
+  --color-smoke: #a0a0a0; /* 4.8:1 on raise */
+  --font-display: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.life-zone {
+  --font-mono-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --focus: #d4af37;
+  color-scheme: dark;
+  background:
+    radial-gradient(1200px 500px at 80% -10%, rgba(75, 0, 130, 0.15), transparent 60%),
+    radial-gradient(900px 420px at -10% 110%, rgba(192, 192, 192, 0.05), transparent 60%),
+    #000000;
+  color: #c0c0c0;
+  border-radius: 1rem;
+  padding: 1rem;
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .life-zone {
+    padding: 1.5rem;
+  }
+}
+
+.life-zone ::selection {
+  background: rgba(212, 175, 55, 0.35);
+  color: #000000;
+}
+
+.life-zone :focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: 2px;
+}
+
+.life-zone input,
+.life-zone select,
+.life-zone textarea {
+  color-scheme: dark;
+}
+
+.life-zone input[type="date"]::-webkit-calendar-picker-indicator,
+.life-zone input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.glow-ember {
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.35), 0 0 40px rgba(212, 175, 55, 0.12);
+}
+
+.text-glow {
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.45);
+}
+
+.card-frame {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)), #1a1a1a;
+  border: 1px solid #404040;
+  border-radius: 14px;
+}
+
+.card-frame:hover {
+  border-color: #d4af37;
+}
+
+.hairline-top {
+  position: relative;
+}
+
+.hairline-top::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35), transparent);
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.35); }
+  70% { box-shadow: 0 0 0 12px rgba(245, 158, 11, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2.4s infinite;
+}
+
+@keyframes flicker {
+  0%, 41%, 43%, 48%, 100% { opacity: 1; }
+  42% { opacity: 0.75; }
+  47% { opacity: 0.85; }
+}
+
+.flicker {
+  animation: flicker 6s infinite;
+}
+
+.life-zone input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #d4af37 var(--fill, 50%), #a0a0a0 var(--fill, 50%));
+}
+
+.life-zone input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #d4af37;
+  border: 2px solid #c0c0c0;
+  cursor: pointer;
+}
+
+.life-zone input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #d4af37;
+  border: 2px solid #c0c0c0;
+  cursor: pointer;
+}
+
+@media (max-width: 639px) {
+  /* iOS Safari zooms into fields under 16px. */
+  .life-zone input,
+  .life-zone select,
+  .life-zone textarea {
+    font-size: 16px !important;
+  }
+
+  /* Dialogs become sheets attached to the bottom edge. */
+  .sheet-mobile {
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  /* Actions revealed on hover must stay visible without a mouse. */
+  .life-zone .group-hover\:opacity-100 {
+    opacity: 1;
+  }
+
+  /* Small icon buttons: larger tap area. */
+  .life-zone button.p-1,
+  .life-zone button.p-1\.5 {
+    padding: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-iteration-count: 1 !important;
+  }
+}

@@ -16,14 +16,18 @@
     "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy -- --keep-vars",
-    "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "migrate:nyx": "tsx --conditions=react-server scripts/migrate-nyx.ts"
   },
   "dependencies": {
+    "@getpapillon/papicons": "0.2.3",
     "@neon/config": "^1.13.0",
     "@neon/env": "^2.1.0",
     "@opennextjs/cloudflare": "1.20.16",
     "better-auth": "1.7.18",
     "drizzle-orm": "0.45.4",
+    "framer-motion": "14.9.1",
+    "lucide-react": "1.69.0",
     "next": "16.4.5",
     "pg": "8.23.1",
     "react": "19.3.0",
