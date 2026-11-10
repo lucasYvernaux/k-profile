@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  // Every page renders per request so the CSP nonce can be applied (see src/middleware.ts).
+  // Every page renders per request so the CSP nonce can be applied (see src/proxy.ts).
   await connection();
   return (
     <html lang="fr" className="h-full antialiased">
