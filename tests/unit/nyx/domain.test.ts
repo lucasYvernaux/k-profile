@@ -108,3 +108,14 @@ describe("network domain", () => {
     expect(channelHref({ kind: "mail", value: "javascript:alert(1)" })).toBe("mailto:javascript:alert(1)");
   });
 });
+
+describe("water percent of the daily goal", () => {
+  it("is a finite 0-100 value, even when the goal is 0", async () => {
+    const { waterPercent } = await import("@/features/intake/domain/intake");
+    expect(waterPercent(1250, 2000)).toBe(62.5);
+    expect(waterPercent(3000, 2000)).toBe(100);
+    // Goal 0 (allowed by the config schema) used to give NaN and an endless gauge animation.
+    expect(waterPercent(0, 0)).toBe(0);
+    expect(waterPercent(500, 0)).toBe(100);
+  });
+});

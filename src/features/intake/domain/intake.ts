@@ -215,6 +215,12 @@ export function expectedWaterAt(cfg: IntakeConfig, hour: number, minute = 0): nu
   return Math.round((cfg.waterGoal * (now - start)) / (end - start));
 }
 
+/** Share of the daily water goal, 0-100. A goal of 0 counts as reached once anything is drunk. */
+export function waterPercent(total: number, goal: number): number {
+  if (goal <= 0) return total > 0 ? 100 : 0;
+  return Math.min(100, (total / goal) * 100);
+}
+
 export function formatAmount(kind: IntakeKind, amount: number): string {
   if (kind === "water") return amount >= 1000 ? `${(amount / 1000).toFixed(2).replace(/\.?0+$/, "")} L` : `${Math.round(amount)} ml`;
   if (kind === "caffeine") return `${Math.round(amount)} mg`;

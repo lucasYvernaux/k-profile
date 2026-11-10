@@ -11,7 +11,7 @@ import { DynIcon } from "@/shared/ui/icon";
 import SloshGauge from "@/shared/ui/react-bits/SloshGauge";
 import {
   DEFAULT_CONFIG, DRINK_PRESETS, KIND_META, caffeineRemaining, estimateBac, estimateBacExtended,
-  expectedWaterAt, formatAmount, formatDuration, gramsOfAlcohol, gramsToUnits, minutesUntilBelow, widmarkR,
+  expectedWaterAt, formatAmount, formatDuration, gramsOfAlcohol, gramsToUnits, minutesUntilBelow, waterPercent, widmarkR,
   type IntakeConfig, type IntakeKind, type Preset,
 } from "@/features/intake/domain/intake";
 import { addDays, formatKeyFr, todayKey, weekdayName } from "@/shared/lib/dates";
@@ -55,12 +55,11 @@ function BacGauge({ bac, limit }: { bac: number; limit: number }) {
 
 /* ---------- Verre d'hydratation animé ---------- */
 function WaterVessel({ pct, total, goal }: { pct: number; total: number; goal: number }) {
-  const fill = Math.min(100, pct);
   return (
     <div className="flex flex-col items-center gap-2">
       {/* Still on load; the water moves only when an intake is added. */}
       <SloshGauge
-        value={fill}
+        value={pct}
         liquidColor="#38bdf8"
         glassColor="#101010"
         width={96}
@@ -255,7 +254,7 @@ export default function IntakePage() {
     value: range.filter((l) => l.kind === kind && l.date === d).reduce((s, l) => s + l.amount, 0) || (d <= todayKey() ? 0 : null),
   }));
 
-  const waterPct = (totals.water / cfg.waterGoal) * 100;
+  const waterPct = waterPercent(totals.water, cfg.waterGoal);
   const caffPct = (totals.caffeine / cfg.caffeineLimit) * 100;
   const alcPct = (weekAlcohol / cfg.alcoholWeeklyLimit) * 100;
 
@@ -522,7 +521,7 @@ export default function IntakePage() {
 
         <Card>
           <SectionTitle icon="trending-up" title="Tendance — 14 jours" sub="Hydratation quotidienne (ml)" />
-          <ScoreLine points={seriesOf("water").map((p) => ({ label: p.label, value: p.value === null ? null : Math.min(100, (p.value / cfg.waterGoal) * 100) }))} height={110} />
+          <ScoreLine points={seriesOf("water").map((p) => ({ label: p.label, value: p.value === null ? null : waterPercent(p.value, cfg.waterGoal) }))} height={110} />
           <div className="mt-4 pt-3 border-t border-line space-y-3">
             <div>
               <p className="text-[10px] uppercase tracking-[0.16em] text-smoke mb-1.5">Caféine (mg / jour)</p>
